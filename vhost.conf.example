@@ -1,0 +1,23 @@
+<VirtualHost *:80>
+    ServerName example.com
+    ServerAlias www.example.com
+    DocumentRoot /home/example.com/static
+    # magical DNS
+    ServerAlias example.com.*
+    # logs
+    ErrorLog /var/log/httpd/example.com.error_log
+    CustomLog /var/log/httpd/example.com.access_log vhost
+    # django
+    WSGIDaemonProcess example.com processes=2 threads=25 display-name=%{GROUP}
+    WSGIProcessGroup  example.com
+    WSGIScriptAlias / /home/example.com/example/wsgi.py
+
+    # make aliases for files and dirs that should not be handled by django
+    Alias /robots.txt  /home/example.com/static/robots.txt
+    Alias /favicon.ico /home/example.com/static/favicon.ico
+    Alias /static /home/example.com/static
+
+    <Directory /home/example.com/static>
+       AllowOverride All
+    </Directory>
+</VirtualHost>
