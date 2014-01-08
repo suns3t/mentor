@@ -1,0 +1,196 @@
+/* 
+ * dark green: 566E10;
+ * light green: 8B9822
+ */
+body { 
+    background-color:#F2F3EE; 
+    margin:0;
+    padding:0;
+}
+
+label {
+    display:block;
+    margin-top:10px;
+}
+
+a:link, a:visited, a:hover {
+    color:#A33F1F;
+}
+
+a:hover {
+    color:#603417;
+}
+
+label.radio {
+    margin-top:0;
+}
+
+textarea {
+    display:block;
+}
+
+.alert {
+    padding: 8px 35px 8px 14px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    border: 1px solid #fbeed5;
+    background-color: #fcf8e3;
+    color: #c09853;
+}
+
+.alert-error {
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #eed3d7;
+}
+
+.alert-success {
+    color: #468847;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+ 
+/* end bootstrap stuff */
+.messages {
+    margin-top:10px;
+}
+
+.left {
+    text-align:left !important;
+}
+
+.submit {
+    display:block;
+    margin-top:10px;
+}
+
+.errorlist {
+    color:#ff0000;
+    margin-top:0;
+}
+
+.error {
+    color:#ff0000;
+}
+
+.select-multiple {
+    overflow:auto;
+    height:200px;
+    width:420px;
+}
+
+.select-multiple ul {
+    list-style-type:none;
+    margin:0;
+    padding:0;
+}
+
+.select-multiple label {
+    margin:0;
+    padding:0;
+}
+
+.select-multiple ul.checkbox-group {
+    margin-left:10px;
+}
+
+.checkbox-group-heading {
+    font-style:italic;
+}
+
+td.error input {
+    background-color:#ff0000;
+}
+
+.helptext {
+    display:block;
+    font-size:11px;
+}
+
+.clear {
+    clear:both;
+}
+
+.data {
+    border-collapse:collapse;
+    border:1px solid black;
+}
+
+.data td {
+    border:1px solid black;
+    border-spacing:1px;
+    padding:3px;
+}
+
+.data .number {
+    text-align:right;
+}
+
+.form-button {
+    display:inline;
+}
+
+.form-button input {
+    background:none;
+    border:none;
+    font:inherit;
+    padding:0;
+    margin:0;
+    border:1px dotted black;
+}
+
+.panel-view {
+    width:100%;
+}
+
+.panel-view td {
+    vertical-align:top;
+    width:33%;
+    padding:10px;
+}
+
+#header {
+    background: #141c00 no-repeat center top;
+    background-image:url("/static/img/header-1.jpg");
+    padding:10px;
+    height:75px;
+}
+
+#header h1 {
+    margin-bottom:0;
+    padding-bottom:0;
+    float:right;
+    margin-right:30px;
+    color:#fff;
+    font-size:18px;
+}
+
+#header img {
+    padding-top:20px;
+}
+
+#header-inner, #content-inner {
+    width:800px;
+    margin:auto;
+}
+
+#content {
+    background-color:#fff;
+    margin:auto;
+}
+
+#content-inner {
+    padding:20px;
+}
+
+#admin-nav {
+    margin-left:0;
+    padding-left:0;
+}
+
+#admin-nav li {
+    float:left;
+    list-style-type:none;
+    margin-right:20px;
+    margin-left:0;
+}

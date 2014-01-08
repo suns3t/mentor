@@ -3,8 +3,36 @@
     <head>
         <title>{% block page_title %}{{ page_title }}{% endblock %}</title>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/main.css">
     </head>
     <body>
-        {% block body %}{% endblock %} 
+        {% block body %}
+        	<div id="header">
+        		{% block hearder %}
+        			<div id="header-inner">
+        				<img src="http://www.pdx.edu/sites/all/themes/pdx_primary/logo.png" />
+        				<h1>{% block header_title %}University Studies: Mentor Program{% endblock %}</h1>
+        			</div>
+        		{% endblock %}
+        	</div>
+
+        	<div id="content">
+        		<div id="content-inner">
+        			{% block content %}{% endblock %}
+        		</div>
+        	</div>
+
+        	<div id="footer">
+                {% block footer %}
+                <hr />
+                <ol>
+                {% for q in sql_queries %}
+                    <li><pre>{{ q.sql }}</pre></li>
+                {% endfor %}
+                </ol>
+                {% endblock %}
+            </div>
+
+        {% endblock %} 
     </body>
 </html>
