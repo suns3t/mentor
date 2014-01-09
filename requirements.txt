@@ -1,2 +1,3 @@
 django
 mysql-python
+-e git://github.com/mdj2/djangocas.git#egg=djangocas

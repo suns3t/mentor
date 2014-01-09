@@ -4,8 +4,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from .forms import QuestionaireForm
 
+from djangocas.decorators import login_required
+
 # Create your views here.
 
+@login_required
 def edit_questionaire(request, questionaire_id):
 	"""
 	This edit_questionaire view is to edit an exist response of the questionaire
@@ -26,6 +29,7 @@ def edit_questionaire(request, questionaire_id):
 		"form" : form
 	})
 
+@login_required
 def add_questionaire(request):
 	"""
 	This add_questionaire view is to add a new response of the questionaire
@@ -44,6 +48,7 @@ def add_questionaire(request):
 		"form" : form
 	})
 
+@login_required
 def listing(request):
 	""" 
 	List all the reponses that the user can edit/delete or add new response
@@ -53,6 +58,7 @@ def listing(request):
 		"questionaires" : questionaires
 	})
 
+@login_required
 def detail(request, questionaire_id):
 	questionaire = get_object_or_404(Questionaire, questionaire_id=questionaire_id)
 

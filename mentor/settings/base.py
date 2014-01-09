@@ -16,6 +16,7 @@ DJANGO_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.normpath(os.path.join(DJANGO_DIR, "../"))
 
+AUTH_USER_MODEL = 'users.User'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -54,8 +55,21 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'djangocas.middleware.CASMiddleware',
 )
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'djangocas.backends.CASBackend',
+)
+
+# AUTH_USER_MODEL = 'users.User'
+
+CAS_SERVER_URL = 'https://sso.pdx.edu/cas/login'
+CAS_REDIRECT_URL = '/questionaire'
+LOGIN_URL = '/admin/login'
+LOGOUT_URL = '/admin/logout'
 
 ROOT_URLCONF = 'mentor.urls'
 
