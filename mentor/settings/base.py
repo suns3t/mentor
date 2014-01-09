@@ -56,20 +56,25 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'djangocas.middleware.CASMiddleware',
 )
 
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'djangocas.backends.CASBackend',
-)
 
-# AUTH_USER_MODEL = 'users.User'
+# CAS authentication setting using djangocas
+USE_CAS = False
 
-CAS_SERVER_URL = 'https://sso.pdx.edu/cas/login'
-CAS_REDIRECT_URL = '/questionaire'
-LOGIN_URL = '/admin/login'
-LOGOUT_URL = '/admin/logout'
+if USE_CAS:
+    CAS_SERVER_URL = 'https://sso.pdx.edu/cas/'
+
+    AUTHENTICATION_BACKENDS = (
+        'django.contrib.auth.backends.ModelBackend',
+        'djangocas.backends.CASBackend',
+    )
+
+    MIDDLEWARE_CLASSES += (
+        'djangocas.middleware.CASMiddleware',
+    )
+
+## end CAS authentication setting
 
 ROOT_URLCONF = 'mentor.urls'
 
