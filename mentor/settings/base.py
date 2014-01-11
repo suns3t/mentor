@@ -40,7 +40,7 @@ INTERNAL_IPS = IPList(['10.*', '192.168.*'])
 
 INSTALLED_APPS = (
     'django.contrib.admin',
-    'django.contrib.auth',
+    # 'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -59,15 +59,18 @@ MIDDLEWARE_CLASSES = (
 )
 
 
+# prevents CAS login on the admin pages
+CAS_ADMIN_PREFIX = 'admin'
+
 # CAS authentication setting using djangocas
-USE_CAS = False
+USE_CAS = True
 
 if USE_CAS:
-    CAS_SERVER_URL = 'https://sso.pdx.edu/cas/'
+    CAS_SERVER_URL = 'https://sso.pdx.edu/cas/login'
 
     AUTHENTICATION_BACKENDS = (
         'django.contrib.auth.backends.ModelBackend',
-        'djangocas.backends.CASBackend',
+        'mentor.backends.PSUBackend',
     )
 
     MIDDLEWARE_CLASSES += (
@@ -75,6 +78,10 @@ if USE_CAS:
     )
 
 ## end CAS authentication setting
+
+# LDAP support
+LDAP_URL = "ldap://ldap.oit.pdx.edu"
+LDAP_BASE_DN = 'dc=pdx,dc=edu'
 
 ROOT_URLCONF = 'mentor.urls'
 

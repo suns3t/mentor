@@ -5,8 +5,6 @@ class Questionaire(models.Model):
 	questionaire_id = models.AutoField(primary_key=True)
 	created_on = models.DateTimeField(auto_now_add=True)
 
-	# User
-	user = models.ForeignKey(User)
 
 	STUDENT = 'ST'
 	MENTOR = 'MT'
@@ -14,6 +12,9 @@ class Questionaire(models.Model):
 		(STUDENT, 'Student'),
 		(MENTOR, 'Mentor'),
 	)
+
+	# User submited this form
+	user = models.ForeignKey(User)
 
 	# Questions
 	student_name = models.CharField(max_length=30, blank=False)	# Student name

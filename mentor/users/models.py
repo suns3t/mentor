@@ -13,11 +13,17 @@ class User(AbstractBaseUser):
 	first_name = models.CharField(max_length=30, blank=True)
 	last_name = models.CharField(max_length=30, blank=True)
 	date_joined = models.DateTimeField(auto_now_add=True)
-	is_admin = models.BooleanField(default=False, blank=True)
-	is_mentor = models.BooleanField(default=False, blank=True)
+	is_active = models.BooleanField(default=True, blank=True)
+	is_staff = models.BooleanField(default=False, blank=True)	# If this user is admin
+	is_superuser = models.BooleanField(default=False, blank=True)
 
 	USERNAME_FIELD = 'username'
 
+	# Custom flags
+	is_student = models.BooleanField(default=False, blank=True) # Flag indicate the user is student or not
+	is_mentor = models.BooleanField(default=False, blank=True) # Flag indicate the user is mentor or not 
+	
+	
 	objects = UserManager()
 
 	class Meta:

@@ -27,12 +27,4 @@ class DeletableModelForm(forms.ModelForm):
 class QuestionaireForm(DeletableModelForm):
 	class Meta:
 		model = Questionaire 
-		fields = (
-			'student_name',
-			'mentor_name',
-			'identity',
-			'primary_concern',
-			'step_taken',
-			'support_from_MAPS',
-			'follow_up_method',
-		)
+		
