@@ -20,7 +20,7 @@ def add_questionaire(request):
 	if request.POST:
 		form = QuestionaireForm(request.POST)
 		if form.is_valid():
-			questionaire = form.save()
+			questionaire = form.save(request.user)
 
 			# try:
 			# 	user = User.objects.get(username=request.user)
@@ -29,7 +29,7 @@ def add_questionaire(request):
 
 			# user.questionaire = questionaire
 			# user.save()
-			import pdb; pdb.set_trace()
+			
 			messages.success(request, "Questionaire response is saved")
 			return HttpResponseRedirect(reverse("questionaire-adding"))
 	else:

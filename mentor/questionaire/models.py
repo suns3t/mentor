@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 from mentor.users.models import User
 
 class Questionaire(models.Model):
@@ -26,19 +27,7 @@ class Questionaire(models.Model):
 	step_taken = models.TextField(blank=True)						# Please share the steps you've taken to address these concerns (if any)
 	support_from_MAPS = models.TextField(blank=True)				# What kind of support would be helpful from the MAPS team?
 	
-	EMAIL ='EMAIL'
-	PHONE = 'PHONE'
-	APPOINTMENT ='APPOINT'
-
-	FOLLOW_UP_METHOD_CHOICES = (
-		(EMAIL, 'Email'),
-		(PHONE, 'Phone'),
-		(APPOINTMENT, 'Appointment'),
-	)
-	
-	follow_up_method = models.CharField(max_length=20,
-										choices=FOLLOW_UP_METHOD_CHOICES,
-										default=EMAIL)
+	follow_up_method = models.CharField(max_length=20, blank=True)
 	class Meta:
 		db_table = 'questionaire'
 		
