@@ -15,6 +15,7 @@ urlpatterns = patterns('',
 
     # admin area
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/report', questionaire.report, name='questionaire-reporting'),
     
     # Questionaire
     # url(r'^questionaire/edit/(?P<questionaire_id>.+)?$', questionaire.edit_questionaire, name='questionaire-editing'),

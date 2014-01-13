@@ -4,11 +4,24 @@
 
 {% block content %}
 <div class='wrap'>
-	<h2>Questionaire<h2>
+	<h2>Questionaire</h2>
 	<form method="post" enctype="multipart/form-data">
 		{% csrf_token %}
-		<table>{{ form }}</table>
+		{{ form.non_field_errors }}
+		{% for field in form %}
+			<div class="textWrapper">
+				{{ field.errors }}
+				<div style="display:inline-block">
+				{{ field.label_tag }} 
+				</div>
+				<div style="display:inline-block">
+				{{ field }}
+				</div>
+			</div>
+		{% endfor %}
+
+		<input type="submit" name="submit" value="Submit"/>
 	</form>
-	<input type="submit" name="submit" value="Submit"/>
+	
 </div>
 {% endblock %}
