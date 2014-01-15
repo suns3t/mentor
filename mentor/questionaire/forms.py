@@ -1,17 +1,8 @@
 from django import forms
 from mentor.questionaire.models import Questionaire
+import datetime
 
 class QuestionaireForm(forms.ModelForm):
-
-	EMAIL ='EMAIL'
-	PHONE = 'PHONE'
-	APPOINTMENT ='APPOINT'
-
-	FOLLOW_UP_METHOD_CHOICES = (
-		(EMAIL, 'Email'),
-		(PHONE, 'Phone'),
-		(APPOINTMENT, 'Appointment'),
-	)
 
 	STUDENT = 'ST'
 	MENTOR = 'MT'
@@ -19,15 +10,33 @@ class QuestionaireForm(forms.ModelForm):
 		(STUDENT, 'Student'),
 		(MENTOR, 'Mentor'),
 	)
-
-	follow_up_method = forms.ChoiceField(
-		choices=FOLLOW_UP_METHOD_CHOICES,
-		label='Contact method')
-	follow_up_contact_info = forms.CharField(
-		label='Contact information')
+	student_name = forms.CharField(error_messages={'required':'Please enter student name'})
+	
 	identity = forms.ChoiceField(
 		choices=IDENTITY_CHOICES,
 		label='Are you a student or a mentor?')
+	
+	primary_concern = forms.CharField(
+		widget=forms.widgets.Textarea,
+		label='What are your primary concerns?')
+	
+	step_taken = forms.CharField(
+		widget=forms.widgets.Textarea,
+		label="Please share the steps you've taken to address these concerns (if any)")
+
+	support_from_MAPS = forms.CharField(
+		widget=forms.widgets.Textarea,
+		label="What kind of support did you receive from MAPS before?")
+	follow_up_email = forms.EmailField(
+		widget=forms.widgets.EmailInput,
+		label='Email')
+	follow_up_phone = forms.CharField(
+		error_messages={'required':'Please insert an appropriate phone number'},
+		widget=forms.widgets.TextInput,
+		label='Phone call')
+	follow_up_appointment = forms.DateField(
+		label='Personal meeting on')
+
 	def save(self, user, *args, **kwargs):
 		"""
 		Overide the save method to input username automatically from
@@ -38,6 +47,18 @@ class QuestionaireForm(forms.ModelForm):
 		post = super(QuestionaireForm, self).save(*args, **kwargs)
 		post.save()
 
+	def clean(self):
+		cleaned_data = super(QuestionaireForm, self).clean()
+
+		# Make sure that user enters at least one method of follow-up
+		email = cleaned_data.get("follow_up_email")
+		phone = cleaned_data.get("follow_up_phone")
+		appointment = cleaned_data.get("follow_up_appointment")
+
+		import pdb; pdb.set_trace();
+		if email is None and appointment is None and phone is None :
+			raise forms.ValidationError('Fill at least one method to follow-up you')
+		return cleaned_data
 	class Meta:
 		model = Questionaire 
 		fields = (
@@ -47,6 +68,7 @@ class QuestionaireForm(forms.ModelForm):
 			'primary_concern',
 			'step_taken',
 			'support_from_MAPS',
-			'follow_up_method',
-			'follow_up_contact_info'
+			'follow_up_email',
+			'follow_up_phone',
+			'follow_up_appointment',
 		)

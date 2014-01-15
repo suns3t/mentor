@@ -2,24 +2,53 @@
 
 {% block page_title %}Response to the questionaire{% endblock %}
 
+{% load questionaire_tags %}
 {% block content %}
+<script type="text/javascript">
+	$(function() {
+		$("#id_follow_up_appointment").datepicker();
+	});
+</script>
 <div class='wrap'>
 	<h2>Questionaire</h2>
+	{% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
 	<form method="post" enctype="multipart/form-data">
 		{% csrf_token %}
 		{{ form.non_field_errors }}
 		{% for field in form %}
-			<div class="textWrapper">
-				{{ field.errors }}
-				<div style="display:inline-block">
-				{{ field.label_tag }} 
-				</div>
-				<div style="display:inline-block">
-				{{ field }}
-				</div>
-			</div>
+		<div class="textWrapper">
+			{% if field|field_type:'emailinput' %}
+			<label>How would you like us to follow-up with you? (Fill at least one method below):</label>
+			{% endif %}
+			{% if not field|field_type:'textarea' %}
+					<div style="display:inline-block">
+						{{ field.label_tag }} 
+					</div>
+					<div style="display:inline-block">
+						{{ field }}
+					</div>
+					<div style="display:inline-block">
+						{{ field.errors }}
+					</div>
+			{% else %}
+					{{ field.label_tag }}
+					<div style="display:inline-block">
+						{{ field }}
+					</div>
+					<div style="display:inline-block">
+						{{ field.errors }}
+					</div>
+			{% endif %}
+		</div>
 		{% endfor %}
-
+		<br/>
 		<input type="submit" name="submit" value="Submit"/>
 	</form>
 	

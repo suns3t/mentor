@@ -20,7 +20,7 @@ class User(AbstractBaseUser):
 	USERNAME_FIELD = 'username'
 
 	# Custom flags
-	is_student = models.BooleanField(default=False, blank=True) # Flag indicate the user is student or not
+	is_student = models.BooleanField(default=True, blank=True) # Flag indicate the user is student or not
 	is_mentor = models.BooleanField(default=False, blank=True) # Flag indicate the user is mentor or not 
 	
 	

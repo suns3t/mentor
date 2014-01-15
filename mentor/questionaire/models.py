@@ -21,9 +21,10 @@ class Questionaire(models.Model):
 	step_taken = models.TextField(blank=True)						# Please share the steps you've taken to address these concerns (if any)
 	support_from_MAPS = models.TextField(blank=True)				# What kind of support would be helpful from the MAPS team?
 	
-	follow_up_method = models.CharField(max_length=20, blank=True)	# It can be email. phone, or appointment
-	follow_up_contact_info = models.CharField(max_length=20, blank=True)	# Based on follow_up_method, users will fill out their email, phone number or date
-	
+	follow_up_email = models.EmailField(null=True,blank=True)
+	follow_up_phone = models.CharField(max_length=15,blank=True)
+	follow_up_appointment = models.DateField(null=True,blank=True)
+
 	class Meta:
 		db_table = 'questionaire'
 		

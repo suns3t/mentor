@@ -25,14 +25,6 @@ def add_questionaire(request):
 		form = QuestionaireForm(request.POST)
 		if form.is_valid():
 			questionaire = form.save(request.user)
-
-			# try:
-			# 	user = User.objects.get(username=request.user)
-			# except User.DoesNotExist as e:
-			# 	user = User.objects.create_user(request.user, '')
-
-			# user.questionaire = questionaire
-			# user.save()
 			
 			messages.success(request, "Questionaire response is saved")
 			return HttpResponseRedirect(reverse("questionaire-adding"))

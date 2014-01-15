@@ -10,7 +10,7 @@ class QuestionaireAdmin(admin.ModelAdmin):
 	fieldsets = [
 		('Student and Mentor information',	{'fields':	['student_name', 'mentor_name', 'identity']}),
 		('Student concern',					{'fields': 	['primary_concern', 'step_taken', 'support_from_MAPS']}),
-		('Following up information',		{'fields':	['follow_up_method', 'follow_up_contact_info']}),
+		('Following up information',		{'fields':	['follow_up_email', 'follow_up_phone', 'follow_up_appointment']}),
 	]
 
 	
