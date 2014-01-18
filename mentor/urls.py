@@ -5,6 +5,7 @@ from django.shortcuts import render
 
 from django.contrib import admin
 from mentor.questionaire import views as questionaire
+from mentor.counter import views as counter 
 from settings import base
 
 admin.autodiscover()
@@ -14,13 +15,15 @@ urlpatterns = patterns('',
     url(r'^$', lambda request: render(request, "main.html"), name='home'),
 
     # admin area
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^admin/report', questionaire.report, name='questionaire-reporting'),
+    url(r'^admin/', include(admin.site.urls), name='admin-home'),
+    url(r'^admin/report-questionaire', questionaire.report, name='questionaire-reporting'),
+    url(r'^admin/report-counter', counter.report, name='counter-reporting'),
     
     # Questionaire
-    # url(r'^questionaire/edit/(?P<questionaire_id>.+)?$', questionaire.edit_questionaire, name='questionaire-editing'),
     url(r'^questionaire/add/?$', questionaire.add_questionaire, name='questionaire-adding'),
-    # url(r'^questionaire/detail/(?P<questionaire_id>.+)?$', questionaire.detail, name='questionaire-detail'),
+
+    # Counter
+    url(r'^goto/(?P<url>[a-zA-Z0-9\-\.]+\.(com|org|net|mil|edu|COM|ORG|NET|MIL|EDU))/?$', counter.goto, name='counter-goto'),
 
 
 )

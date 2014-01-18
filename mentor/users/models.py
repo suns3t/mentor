@@ -29,6 +29,11 @@ class User(AbstractBaseUser):
 	class Meta:
 		db_table = "user"
 
+	def __unicode__(self):
+		if self.first_name:
+			return u'%s %s' % (self.first_name, self.last_name)
+		else:
+			return u'%s' % (self.username)
 	#
     # These methods are required to work with Django's admin
     #

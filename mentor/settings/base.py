@@ -46,7 +46,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mentor.questionaire',
-    'mentor.users'
+    'mentor.users',
+    'mentor.counter',
 )
 
 MIDDLEWARE_CLASSES = (

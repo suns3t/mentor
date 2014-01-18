@@ -54,6 +54,22 @@
 
 {% block sidebar %}
 <div id="content-related">
+    <div class="module" id="download-csv">
+        <h2>Download CSV files</h2>
+        <h3>Click-through Counter Data</h3>
+        <ul>
+            <li>
+                <a href="{% url 'counter-reporting' %}">Report Click-through CSV</a>
+            </li>
+        </ul>
+        <h3>Responses Data</h3>
+            <ul>
+                <li>
+                    <a href="{% url 'questionaire-reporting' %}">Report Response CSV</a>
+                </li>
+            </ul>
+        </form>
+    </div>
     <div class="module" id="recent-actions-module">
         <h2>{% trans 'Recent Actions' %}</h2>
         <h3>{% trans 'My Actions' %}</h3>
@@ -78,8 +94,6 @@
                 {% endif %}
             </li>
             {% endfor %}
-            <li>
-                <a href="{% url 'questionaire-reporting' %}">Report CSV</a>
             </ul>
             {% endif %}
     </div>

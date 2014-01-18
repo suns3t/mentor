@@ -3,8 +3,9 @@ from mentor.questionaire.models import Questionaire
 
 class QuestionaireAdmin(admin.ModelAdmin):
 	# This changes QuestionaireAdmin list form
-	list_display = ('student_name', 'user','created_on', 'mentor_name')
+	list_display = ('student_name', 'mentor_name', 'created_on')
 	list_filter = ['created_on','user']
+	ordering = ['created_on']
 	
 	# This changes QuestionaireAdmin detail form
 	fieldsets = [

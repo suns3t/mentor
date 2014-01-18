@@ -6,13 +6,14 @@
         <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
         <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
         <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/main.css">
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery-ui.css">
     </head>
     <body>
         {% block body %}
         	<div id="header">
         		{% block hearder %}
         			<div id="header-inner">
-        				<img src="http://www.pdx.edu/sites/all/themes/pdx_primary/logo.png" />
+        				<a href="{% url 'home' %}"><img src="http://www.pdx.edu/sites/all/themes/pdx_primary/logo.png" /></a>
         				<h1>{% block header_title %}University Studies: Mentor Program{% endblock %}</h1>
         			</div>
         		{% endblock %}

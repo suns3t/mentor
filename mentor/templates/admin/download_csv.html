@@ -1,0 +1,46 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static %}
+
+{% block extrastyle %}{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}" />
+{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}dashboard{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+    $(function() {
+        $("#id_start_date").datepicker()
+        $("#id_end_date").datepicker()
+    })
+</script>
+
+<div class="app module">
+        <h2>Download {{ title }}</h3>
+
+        <form method="post" enctype="ultipart/form-data">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% for field in form %}
+            <div class="textWrapper" style="margin: 10px">
+                <div style="display:inline-block">
+                    {{ field.label_tag }}
+                </div>
+                <div style="display:inline-block">
+                    {{ field }}
+                </div>
+                <div style="display:inline-block">
+                	{{ field.errors}}
+                </div>
+            </div>
+            {% endfor %}
+            <h3/>
+            <input class="button" type="submit" value="Download {{ title }} CSV file" style="margin-left: 10px; "/>
+        </form>
+</div>
+
+{% endblock %}

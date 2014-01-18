@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block page_title %}Response to the questionaire{% endblock %}
+{% block page_title %}Response to the form{% endblock %}
 
 {% load questionaire_tags %}
 {% block content %}
@@ -49,7 +49,10 @@
 		</div>
 		{% endfor %}
 		<br/>
-		<input type="submit" name="submit" value="Submit"/>
+		<div class="textWrapper">
+			<input class="button submit-button" type="submit" name="submit" value="Submit" style="margin-left: 5px;"/>
+		</div>
+		<div class="clear"></div>
 	</form>
 	
 </div>
