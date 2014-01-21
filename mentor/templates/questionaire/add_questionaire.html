@@ -11,6 +11,10 @@
 </script>
 <div class='wrap'>
 	<h1>MAPS Support Webform</h1>
+    {% if form.errors %}
+        <p class="error">There were some errors detected. You must correct them before you can continue.</p>
+    {% endif %}
+
 	{% if messages %}
         <ul class="messages">
             {% for message in messages %}
