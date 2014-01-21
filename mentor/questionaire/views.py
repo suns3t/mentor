@@ -70,7 +70,8 @@ def report(request):
 				csv_row.append(questionaire.support_from_MAPS)
 				csv_row.append(questionaire.follow_up_email)
 				csv_row.append(questionaire.follow_up_phone)
-				csv_row.append(questionaire.follow_up_appointment.strftime("%Y-%m-%d"))
+				if questionaire.follow_up_appointment:
+					csv_row.append(questionaire.follow_up_appointment.strftime("%Y-%m-%d"))
 
 				writer.writerow(csv_row)
 

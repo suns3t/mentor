@@ -11,6 +11,7 @@ class QuestionaireForm(forms.ModelForm):
 		(MENTOR, 'Mentor'),
 	)
 	student_name = forms.CharField(error_messages={'required':'Please enter student name'})
+	mentor_name = forms.CharField(error_messages={'required':'Please enter mentor name'})
 	
 	identity = forms.ChoiceField(
 		choices=IDENTITY_CHOICES,
@@ -59,8 +60,9 @@ class QuestionaireForm(forms.ModelForm):
 
 		appointment = self.cleaned_data.get("follow_up_appointment")
 		
-		if appointment < date.today():
-			raise forms.ValidationError('Appointment date should be in the future')
+		if appointment:
+			if appointment < date.today():
+				raise forms.ValidationError('Appointment date should be in the future')
 
 		return appointment
 
@@ -95,17 +97,23 @@ class DownloadResponseForm(forms.Form):
 
 	start_date = forms.DateField(
 		label="Start Date: ",
-		required=True)
+		required=True,
+		)
 
 	end_date = forms.DateField(
 		label="End Date: ",
-		required=True)
+		required=True,
+		)
 
 	def clean(self):
 		cleaned_data = super(DownloadResponseForm, self).clean()
 
-		start_date = cleaned_data['start_date']
-		end_date = cleaned_data['end_date']
+		try:
+			start_date = cleaned_data['start_date']
+			end_date = cleaned_data['end_date']
+		except KeyError:
+			raise forms.ValidationError("Fill in the required dates.")
+		
 
 		if start_date > date.today():
 			raise forms.ValidationError("Start Date should not in the future.") 

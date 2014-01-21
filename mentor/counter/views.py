@@ -46,7 +46,7 @@ def report(request):
 			
 			for counter in counters:
 				csv_row = []
-				csv_row.append(counter.student_name)
+				csv_row.append(counter.url)
 				csv_row.append(counter.timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 	
 				writer.writerow(csv_row)
