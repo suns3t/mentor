@@ -60,9 +60,6 @@ MIDDLEWARE_CLASSES = (
 )
 
 
-# prevents CAS login on the admin pages
-CAS_ADMIN_PREFIX = 'admin'
-
 # CAS authentication setting using djangocas
 USE_CAS = True
 
@@ -88,16 +85,6 @@ ROOT_URLCONF = 'mentor.urls'
 
 WSGI_APPLICATION = 'mentor.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
