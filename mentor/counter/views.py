@@ -2,6 +2,7 @@ from django.shortcuts import render
 from mentor.counter.models import Counter 
 from datetime import date, datetime, timedelta 
 from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.utils.timezone import localtime
 
 from django.contrib.admin.views.decorators import staff_member_required
 from mentor.utils import UnicodeWriter
@@ -47,7 +48,7 @@ def report(request):
 			for counter in counters:
 				csv_row = []
 				csv_row.append(counter.url)
-				csv_row.append(counter.timestamp.strftime("%Y-%m-%d %H:%M:%S"))
+				csv_row.append(localtime(counter.timestamp).strftime("%Y-%m-%d %H:%M:%S"))
 	
 				writer.writerow(csv_row)
 
