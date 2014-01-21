@@ -23,7 +23,7 @@ urlpatterns = patterns('',
     url(r'^questionaire/add/?$', questionaire.add_questionaire, name='questionaire-adding'),
 
     # Counter
-    url(r'^goto/(?P<url>[a-zA-Z0-9\-\.]+\.(com|org|net|mil|edu|COM|ORG|NET|MIL|EDU))/?$', counter.goto, name='counter-goto'),
+    url(r'^goto/(?P<url>.*)/?$', counter.goto, name='counter-goto'),
 
 
 )

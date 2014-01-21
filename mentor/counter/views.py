@@ -16,7 +16,7 @@ def goto(request, url=None):
 		counter = Counter(url=url)
 		counter.save()
 		# import pdb; pdb.set_trace();
-		return HttpResponseRedirect('http://'+url)
+		return HttpResponseRedirect(url)
 	else:
 		raise Http404()
 
