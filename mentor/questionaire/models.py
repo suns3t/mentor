@@ -27,5 +27,4 @@ class Questionaire(models.Model):
 
 	class Meta:
 		db_table = 'questionaire'
-		
-		
+        ordering = ['created_on']
