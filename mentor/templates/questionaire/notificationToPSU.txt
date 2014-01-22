@@ -1,0 +1,14 @@
+A MAPS Webform is submitted.
+
+A user named {{ username }} submitted a response at {{ questionaire.created_on }}
+
+Here is the detail of the response:
+<label>Student name: </label> {{ questionaire.student_name }}
+<label>Mentor name: </label> {{ questionaire.mentor_name }}
+<label>Identity: </label> {{ questionaire.identity }}
+<label>Primary concern: </label> {{ questionaire.primary_concern }}
+<label>Step taken: </label> {{ questionaire.step_taken }}
+<label>Support from MAPS: </label> {{ questionaire.support_from_MAPS }}
+<label>Follow up email: </label>{{ questionaire.follow_up_email }}
+<label>Follow up phone: </label>{{ questionaire.follow_up_phone }}
+<label>Follow up appointment: </label>{{ questionaire.follow_up_appointment }}

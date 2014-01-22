@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block page_title %}Response to the form{% endblock %}
+
+{% block content %}
+
+<div class='wrap'>
+	<h1>Thank you!</h1>
+    <ul class="messages">
+        <li>Your submission is recorded</li>
+        <li><a href='{% url "questionaire-adding" %}'>Submit another request</a></li>
+    </ul>
+
+{% endblock %}

@@ -10,26 +10,19 @@
 	});
 </script>
 <div class='wrap'>
-	<h1>MAPS Support Webform</h1>
-    {% if form.errors %}
-        <p class="error">There were some errors detected. You must correct them before you can continue.</p>
-    {% endif %}
 
-	{% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
+    <h1>MAPS Support Webform</h1>
+    {% if form.errors %}
+        <p class="error">Errors detected: Please correct them before you can continue.</p>
     {% endif %}
 
 	<form method="post" enctype="multipart/form-data">
 		{% csrf_token %}
-		{{ form.non_field_errors }}
 		{% for field in form %}
 		<div class="textWrapper">
 			{% if field|field_type:'emailinput' %}
 			<label>How would you like us to follow-up with you? (Fill at least one method below):</label>
+			{{ form.non_field_errors }}
 			{% endif %}
 			{% if not field|field_type:'textarea' %}
 					<div style="display:inline-block">
@@ -42,13 +35,15 @@
 						{{ field.errors }}
 					</div>
 			{% else %}
-					{{ field.label_tag }}
-					<div style="display:inline-block">
-						{{ field }}
-					</div>
-					<div style="display:inline-block">
-						{{ field.errors }}
-					</div>
+			<div class="textWrapper">
+			{{ field.label_tag }}
+			</div>
+			<div class="textWrapper">
+			{{ field.errors }}
+			</div>
+			<div class="textWrapper">
+			{{ field }}
+			</div>
 			{% endif %}
 		</div>
 		{% endfor %}
@@ -58,6 +53,6 @@
 		</div>
 		<div class="clear"></div>
 	</form>
-	
+
 </div>
 {% endblock %}
