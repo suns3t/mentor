@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic.base import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.shortcuts import render
@@ -21,6 +22,7 @@ urlpatterns = patterns('',
     
     # Questionaire
     url(r'^questionaire/add/?$', questionaire.add_questionaire, name='questionaire-adding'),
+    url(r'^questionaire/thanks/?$', TemplateView.as_view(template_name='questionaire/thanks.html'), name='questionaire-thanks'),
 
     # Counter
     url(r'^goto/(?P<url>.*)/?$', counter.goto, name='counter-goto'),

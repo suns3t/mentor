@@ -1,4 +1,9 @@
 from django.contrib import admin
 from mentor.users.models import User
 # Register your models here.
-admin.site.register(User)
+
+class UserAdmin(admin.ModelAdmin):
+	# Thsi changes UserAdmin list form
+	list_display = ('username','is_staff','is_student')
+
+admin.site.register(User, UserAdmin)

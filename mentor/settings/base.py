@@ -86,6 +86,15 @@ ROOT_URLCONF = 'mentor.urls'
 WSGI_APPLICATION = 'mentor.wsgi.application'
 
 
+# Email domain is used to send email to a user, the address is formed by username@EMAIL_DOMAIN
+# EMAIL_FROM is the email address that email will be sent from
+# EMAIL_LIST is the email address that email will be sent to inform client (specified by client)
+EMAIL_DOMAIN = 'pdx.edu'
+EMAIL_FROM = 'mentor_no_reply@pdx.edu'
+EMAIL_LIST = 'huyhoan@pdx.edu'
+
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -98,7 +107,6 @@ USE_I18N = False
 USE_L10N = False
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
