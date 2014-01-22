@@ -6,6 +6,10 @@ Install neccessary softwares for the project
     source .env/bin/activate
     pip install -r requirements.txt
     
+Add time zone support for django (using `date_hierarchy`)
+
+    mysql_tzinfo_to_sql /usr/share/zoneinfo/ | mysql -uroot --force mysql
+    
 Create a local copy of the example settings, and configure the SECRET_KEY and DB config
 
     cp mentor/settings/local.py.example aol/settings/local.py
@@ -14,3 +18,4 @@ Create a local copy of the example settings, and configure the SECRET_KEY and DB
 Change some settings for the website in base.py such as EMAIL_LIST
 
     vi mentor/settings/base.py
+
