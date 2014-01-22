@@ -11,7 +11,7 @@ class QuestionaireForm(forms.ModelForm):
 		(MENTOR, 'Mentor'),
 	)
 	student_name = forms.CharField(error_messages={'required':'Please enter student name'})
-	mentor_name = forms.CharField(error_messages={'required':'Please enter mentor name'})
+	mentor_name = forms.CharField(error_messages={'required':'Please enter mentor name'}, required=False)
 	
 	identity = forms.ChoiceField(
 		choices=IDENTITY_CHOICES,
@@ -53,7 +53,7 @@ class QuestionaireForm(forms.ModelForm):
 
 		self.instance.user = user
 		post = super(QuestionaireForm, self).save(*args, **kwargs)
-		post.save()
+		post.sendNotification() 
 
 	def clean_follow_up_appointment(self):
 		#cleaned_data = super(QuestionaireForm, self).clean_follow_up_appointment()
@@ -115,10 +115,6 @@ class DownloadResponseForm(forms.Form):
 			raise forms.ValidationError("Fill in the required dates.")
 		
 
-		if start_date > date.today():
-			raise forms.ValidationError("Start Date should not in the future.") 
-		if end_date > date.today():
-			raise forms.ValidationError("End Date should not in the future.")
 		if end_date < start_date:
 			raise forms.ValidationError("End Date can't smaller then Start Date.")
 
