@@ -1,0 +1,48 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static %}
+
+{% block extrastyle %}{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}" />
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}"/>
+{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}dashboard{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+    $(function() {
+        $("#id_start_date").datepicker()
+        $("#id_end_date").datepicker()
+    })
+</script>
+
+	<h1>Click count list page</h1>
+<div class="app module">
+	<h2>Count list</h2>
+	<form id="form" method="post">
+		{% csrf_token %}
+		<div class="actions">
+			<label>Start Date:</label>
+			<input id="id_start_date" name="start_name" type="text">
+			<label>End Date:</label>
+			<input id="id_end_date" name="end_name" type="text">
+			<button type="submit" class="button" title="Run the selected action" name="index" value="0">Go</button>
+		</div>
+		<div class="results">
+			<table>
+				{% for counter in counters %}
+				<tr>
+					<td>{{ counter.url }}</td>
+					<td>{{ counter.timestamp}}</td>
+					<td>{{ counter.num_click}}</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</form>
+</div>
+{% endblock %}

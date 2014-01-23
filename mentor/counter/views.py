@@ -7,6 +7,7 @@ from django.utils.timezone import localtime
 from django.contrib.admin.views.decorators import staff_member_required
 from mentor.utils import UnicodeWriter
 from mentor.questionaire.forms import DownloadResponseForm
+from django.db.models import Count
 # Create your views here.
 
 def goto(request, url=None):
@@ -61,4 +62,8 @@ def report(request):
 
 @staff_member_required
 def list(request):
-	pass
+	counters = Counter.objects.annotate(num_click=Count('url'))
+
+	return render(request, "admin/counter_list.html", {
+		"counters" : counters
+	})
