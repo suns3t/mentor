@@ -46,6 +46,17 @@
         </table>
         </div>
     {% endfor %}
+    <div class="app-counter module">
+        <table>
+            <caption>
+                <a href="{% url 'counter-list' %}" class="section" title="Counter list">Counter list</a>
+            </caption>
+            <tr>
+                <th scope="row"><a href="{% url 'counter-list' %}">Counter list</a></th>
+                <th scope="row"></th>
+            </tr>
+        </table>
+    </div>
 {% else %}
     <p>{% trans "You don't have permission to edit anything." %}</p>
 {% endif %}

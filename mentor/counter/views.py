@@ -58,3 +58,7 @@ def report(request):
 		"form" : form,
 		"title" : title,
 	})
+
+@staff_member_required
+def list(request):
+	pass

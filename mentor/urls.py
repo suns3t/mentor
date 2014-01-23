@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls), name='admin-home'),
     url(r'^admin/report-questionaire', questionaire.report, name='questionaire-reporting'),
     url(r'^admin/report-counter', counter.report, name='counter-reporting'),
+    url(r'^admin/counter-list', counter.list, name='counter-list'),
     
     # Questionaire
     url(r'^questionaire/add/?$', questionaire.add_questionaire, name='questionaire-adding'),
