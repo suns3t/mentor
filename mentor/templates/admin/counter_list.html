@@ -20,29 +20,56 @@
     })
 </script>
 
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#id_url_button").click(function() {
+        	$("#id_url_output").text(encodeURIComponent($("#id_url_encode").val()))
+    	});
+	})
+</script>
+
 	<h1>Click count list page</h1>
 <div class="app module">
 	<h2>Count list</h2>
 	<form id="form" method="post">
 		{% csrf_token %}
 		<div class="actions">
-			<label>Start Date:</label>
-			<input id="id_start_date" name="start_name" type="text">
-			<label>End Date:</label>
-			<input id="id_end_date" name="end_name" type="text">
+			{{ form.non_field_errors }}
+			{{ form.start_date.label}}
+			{{ form.start_date }}
+			{{ form.end_date.label }}
+			{{ form.end_date}}
 			<button type="submit" class="button" title="Run the selected action" name="index" value="0">Go</button>
 		</div>
 		<div class="results">
+			{% if counters %}
 			<table>
+				<thead>
+					<tr>
+						<th>URL</th>
+						<th>No.</th>
+					</tr>
+				</thead>
 				{% for counter in counters %}
 				<tr>
 					<td>{{ counter.url }}</td>
-					<td>{{ counter.timestamp}}</td>
-					<td>{{ counter.num_click}}</td>
+					<td>{{ counter.url_count}}</td>
 				</tr>
 				{% endfor %}
 			</table>
+			{% else %}
+			<h4>No data on that period</h4>
+			{% endif %}
 		</div>
 	</form>
+</div>
+<div class="app module">
+	<h2>Get URL</h2>
+	<div class="action">
+		<label>URL:</label>
+		<input type="text" id="id_url_encode" placeholder="Example: http://www.google.com" size="35"></input>
+		<button class="button" title="Get URL Encode" id="id_url_button">Encode</button>
+		<label id="id_url_output"></label>
+	</div>
 </div>
 {% endblock %}

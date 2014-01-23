@@ -32,8 +32,7 @@ def report(request):
 			start_date = form.cleaned_data['start_date']
 			end_date = form.cleaned_data['end_date'] + timedelta(days=1)
 
-			counters = list(Counter.objects.filter(timestamp__lt=end_date,timestamp__gte=start_date))
-			timestamp = datetime.today()
+			counters = Counter.objects.filter(timestamp__lt=end_date,timestamp__gte=start_date)
 			filename = "Report Click-through data at from " + start_date.strftime("%Y-%m-%d") + " to " + end_date.strftime("%Y-%m-%d")
 
 			http_response = HttpResponse()
@@ -62,8 +61,24 @@ def report(request):
 
 @staff_member_required
 def list(request):
-	counters = Counter.objects.annotate(num_click=Count('url'))
+	counters = Counter.objects.raw('''
+				SELECT *, COUNT(url) AS url_count FROM counter 
+				GROUP BY url;''')
+
+	if request.POST:
+		form = DownloadResponseForm(request.POST)
+		if form.is_valid():
+			start_date = form.cleaned_data['start_date']
+			end_date = form.cleaned_data['end_date'] + timedelta(days=1)
+
+			counters = Counter.objects.raw('''
+				SELECT *, COUNT(url) AS url_count FROM counter 
+				WHERE timestamp >= "''' + start_date.strftime("%Y-%m-%d %H:%M:%S") + '''" and timestamp < "''' + end_date.strftime("%Y-%m-%d %H:%M:%S") + '''"
+				GROUP BY url;''')
+	else:
+		form = DownloadResponseForm()
 
 	return render(request, "admin/counter_list.html", {
-		"counters" : counters
+		"counters" : counters,
+		"form" : form,
 	})
