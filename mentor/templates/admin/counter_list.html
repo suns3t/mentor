@@ -23,7 +23,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#id_url_button").click(function() {
-        	$("#id_url_output").text(encodeURIComponent($("#id_url_encode").val()))
+        	$("#id_url_output").text(window.location.protocol + "//" + window.location.host + "/goto/" + encodeURIComponent($("#id_url_encode").val()))
     	});
 	})
 </script>
@@ -42,7 +42,7 @@
 			<button type="submit" class="button" title="Run the selected action" name="index" value="0">Go</button>
 		</div>
 		<div class="results">
-			{% if counters %}
+			{% if has_counters %}
 			<table>
 				<thead>
 					<tr>

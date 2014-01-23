@@ -60,7 +60,7 @@ def report(request):
 	})
 
 @staff_member_required
-def list(request):
+def list_(request):
 	counters = Counter.objects.raw('''
 				SELECT *, COUNT(url) AS url_count FROM counter 
 				GROUP BY url;''')
@@ -81,4 +81,5 @@ def list(request):
 	return render(request, "admin/counter_list.html", {
 		"counters" : counters,
 		"form" : form,
+        "has_counters": len(list(counters))
 	})
