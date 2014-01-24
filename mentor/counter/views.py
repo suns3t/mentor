@@ -62,7 +62,6 @@ def report(request):
 @staff_member_required
 def list_counter(request):
 	counters = []
-
 	if request.POST:
 		form = DownloadResponseForm(request.POST)
 		if form.is_valid():
