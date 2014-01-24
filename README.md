@@ -6,7 +6,7 @@ Install neccessary softwares for the project
     source .env/bin/activate
     pip install -r requirements.txt
     
-Add time zone support for django (using `date_hierarchy`)
+Add time zone support for django 
 
     mysql_tzinfo_to_sql /usr/share/zoneinfo/ | mysql -uroot --force mysql
     
