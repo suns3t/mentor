@@ -12,4 +12,5 @@ class Counter(models.Model):
 
 	class Meta:
 		db_table = 'counter'
+		ordering = ['timestamp']
 		
