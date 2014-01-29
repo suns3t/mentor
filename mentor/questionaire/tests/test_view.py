@@ -1,11 +1,12 @@
-from mentor.questionaire.tests import InitQuestionaire
+from mentor.questionaire.tests import UserLogin, AdminLogin
 from mentor.questionaire.models import Questionaire
 from django.test import TestCase
 from django.test.client import Client 
 from django.core.urlresolvers import reverse
 from datetime import date 
 
-class QuestionaireViewTest(InitQuestionaire):
+# Test add_questionaire view
+class QuestionaireViewTest(UserLogin):
 	def test_get(self):
 		response = self.client.get(reverse('questionaire-adding'))
 		self.assertEqual(response.status_code, 200)
@@ -26,3 +27,9 @@ class QuestionaireViewTest(InitQuestionaire):
 		# Make sure the save method is called
 		self.assertTrue(Questionaire.objects.filter(student_name=data['student_name']).exists())
 		self.assertRedirects(response, reverse('questionaire-thanks'))
+
+# Test report view
+class ReportViewTest(AdminLogin):
+	def test_get(self):
+		response = self.client.get(reverse('questionaire-reporting'))
+		self.assertEqual(response.status_code, 200)
