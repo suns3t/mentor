@@ -20,7 +20,7 @@ class QuestionaireViewTest(UserLogin):
 			'support_from_MAPS' : 'Support from MAPS',
 			'follow_up_email' :'abc@mail.com',
 			'follow_up_phone' : '4443332222',
-			'follow_up_appoinment' : date.today(),
+			'follow_up_appointment' : date.today(),
 		}
 
 		response = self.client.post(reverse('questionaire-adding'), data)
@@ -33,3 +33,28 @@ class ReportViewTest(AdminLogin):
 	def test_get(self):
 		response = self.client.get(reverse('questionaire-reporting'))
 		self.assertEqual(response.status_code, 200)
+
+	def test_post(self):
+
+		# Create a database
+		questionaire = Questionaire(
+			student_name='Student Name',
+			identity='ST',
+			primary_concern='My primary concern',
+			step_taken='My steps taken',
+			support_from_MAPS='Support from MAPS',
+			follow_up_email='abc@mail.com',
+			follow_up_phone='4443332222',
+			follow_up_appointment=date.today(),
+		)
+		questionaire.user = self.user 
+		questionaire.save()
+
+		data = {
+			'start_date' : date.today(),
+			'end_date' : date.today(),
+		}
+
+		response = self.client.post(reverse('questionaire-reporting'), data)
+		# Need to test csv reponse
+		self.assertTrue(response)

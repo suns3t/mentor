@@ -18,7 +18,7 @@ class AdminLogin(TestCase):
 
 		self.user = User(username='admin', first_name='Admin', last_name='ABC',email='whatever@mail.com')
 		self.user.set_password('admin')
-		self.is_staff = 1
+		self.is_staff = True
 		self.user.save()
 
 		self.assertTrue(self.client.login(username=self.user.username, password='admin'))
