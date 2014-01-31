@@ -53,7 +53,6 @@ class Questionaire(models.Model):
 
 			msg_to_user = EmailMultiAlternatives(subject_to_user, text_content_to_user, SETTINGS.EMAIL_FROM, [to_user])
 			msg_to_user.attach_alternative(html_content_to_user, "text/html")
-			msg_to_user.send()
 
 			# Send email to PSU Email List
 			text_content_psu_email_list = render_to_string('questionaire/notificationToPSU.txt', context_to_psu_email_list)
@@ -62,7 +61,9 @@ class Questionaire(models.Model):
 
 			msg = EmailMultiAlternatives(subject_to_psu_email_list, text_content_psu_email_list, SETTINGS.EMAIL_FROM, [SETTINGS.EMAIL_LIST] )
 			msg.attach_alternative(html_content_psu_email_list, "text/html")
-			msg.send()
+			return (msg.send() + msg_to_user.send())
+		else:
+			return 0
 
 	class Meta:
 		db_table = 'questionaire'

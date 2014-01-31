@@ -1,7 +1,6 @@
 from mentor.questionaire.tests import UserLogin, AdminLogin
 from mentor.questionaire.models import Questionaire
 from django.test import TestCase
-from django.test.client import Client 
 from django.core.urlresolvers import reverse
 from datetime import date 
 
@@ -56,5 +55,6 @@ class ReportViewTest(AdminLogin):
 		}
 
 		response = self.client.post(reverse('questionaire-reporting'), data)
+
 		# Need to test csv reponse
-		self.assertTrue(response)
+		self.assertEqual(response['Content-Type'],'text/csv')

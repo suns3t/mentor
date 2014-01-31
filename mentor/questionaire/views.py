@@ -49,7 +49,7 @@ def report(request):
 			end_date = form.cleaned_data['end_date'] + timedelta(days=1)
 
 			questionaires = Questionaire.objects.filter(created_on__lt=end_date,created_on__gte=start_date)
-			filename = "Report Responses at "  + " from " + start_date.strftime("%Y-%m-%d") + " to " + end_date.strftime("%Y-%m-%d")
+			filename = "Report Responses from " + start_date.strftime("%Y-%m-%d") + " to " + end_date.strftime("%Y-%m-%d")
 
 			http_response = HttpResponse()
 			http_response = HttpResponse(content_type='text/csv')

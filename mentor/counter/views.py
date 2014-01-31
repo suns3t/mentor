@@ -33,7 +33,7 @@ def report(request):
 			end_date = form.cleaned_data['end_date'] + timedelta(days=1)
 
 			counters = Counter.objects.filter(timestamp__lt=end_date,timestamp__gte=start_date)
-			filename = "Report Click-through data at from " + start_date.strftime("%Y-%m-%d") + " to " + end_date.strftime("%Y-%m-%d")
+			filename = "Report Click-through data from " + start_date.strftime("%Y-%m-%d") + " to " + end_date.strftime("%Y-%m-%d")
 
 			http_response = HttpResponse()
 			http_response = HttpResponse(content_type='text/csv')
