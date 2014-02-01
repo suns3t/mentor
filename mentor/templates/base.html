@@ -13,12 +13,19 @@
         	<div id="header">
         		{% block hearder %}
         			<div id="header-inner">
+                        {% block header_title %}
         				<a href="{% url 'home' %}"><img src="http://www.pdx.edu/sites/all/themes/pdx_primary/logo.png" /></a>
-        				<h1>{% block header_title %}University Studies: Mentor Program{% endblock %}</h1>
+        				<h1>University Studies: Mentor Program</h1>
+                        {% endblock %}
         			</div>
         		{% endblock %}
         	</div>
-
+            <div id="navigation-inner">
+                {% if user.is_active and user.is_student %}
+                Hello, {% firstof user.get_full_name %}
+                <a href="{% url 'account-logout' %}"> Logout </a>
+                {% endif %}
+            </div>
         	<div id="content">
         		<div id="content-inner">
         			{% block content %}{% endblock %}

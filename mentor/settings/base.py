@@ -64,7 +64,7 @@ MIDDLEWARE_CLASSES = (
 USE_CAS = True
 
 if USE_CAS:
-    CAS_SERVER_URL = 'https://sso.pdx.edu/cas/login'
+    CAS_SERVER_URL = 'https://sso.pdx.edu/cas/'
 
     AUTHENTICATION_BACKENDS = (
         'django.contrib.auth.backends.ModelBackend',

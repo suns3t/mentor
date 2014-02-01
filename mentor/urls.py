@@ -34,8 +34,8 @@ urlpatterns = patterns('',
 # djangocas
 if settings.USE_CAS:
     urlpatterns = patterns('',
-        url(r'^accounts/login/$', 'djangocas.views.login', name='admin-login'),
-        url(r'^accounts/logout/$', 'djangocas.views.logout', name='admin-logout'),
+        url(r'^accounts/login/$', 'djangocas.views.login', name='account-login'),
+        url(r'^accounts/logout/$', 'djangocas.views.logout', name='account-logout'),
         ) + urlpatterns
 
     # urlpatterns = patterns('django.views.generic.simple', ('^admin/logout/$', 'redirect_to' ,

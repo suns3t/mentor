@@ -173,7 +173,7 @@ td.error input {
     padding-top:20px;
 }
 
-#header-inner, #content-inner {
+#header-inner, #content-inner, #navigation-inner {
     width:800px;
     margin:auto;
 }
