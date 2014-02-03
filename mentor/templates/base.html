@@ -10,29 +10,29 @@
     </head>
     <body>
         {% block body %}
-        	<div id="header">
-        		{% block hearder %}
-        			<div id="header-inner">
+            <div id="header">
+                {% block hearder %}
+                    <div id="header-inner">
                         {% block header_title %}
-        				<a href="{% url 'home' %}"><img src="http://www.pdx.edu/sites/all/themes/pdx_primary/logo.png" /></a>
-        				<h1>University Studies: Mentor Program</h1>
+                        <a href="{% url 'home' %}"><img src="http://www.pdx.edu/sites/all/themes/pdx_primary/logo.png" /></a>
+                        <h1>University Studies: Mentor Program</h1>
                         {% endblock %}
-        			</div>
-        		{% endblock %}
-        	</div>
+                    </div>
+                {% endblock %}
+            </div>
             <div id="navigation-inner">
-                {% if user.is_active and user.is_student %}
+                {% if user.is_active %}
                 Hello, {% firstof user.get_full_name %}
                 <a href="{% url 'account-logout' %}"> Logout </a>
                 {% endif %}
             </div>
-        	<div id="content">
-        		<div id="content-inner">
-        			{% block content %}{% endblock %}
-        		</div>
-        	</div>
+            <div id="content">
+                <div id="content-inner">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
 
-        	<div id="footer">
+            <div id="footer">
                 {% block footer %}
                 <hr />
                 <ol>

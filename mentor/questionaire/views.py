@@ -16,70 +16,70 @@ from mentor.utils import UnicodeWriter
 
 @login_required
 def add_questionaire(request):
-	"""
-	This add_questionaire view is to add a new response of the questionaire
-	into questionaire table
-	"""
+    """
+    This add_questionaire view is to add a new response of the questionaire
+    into questionaire table
+    """
 
-	if request.POST:
-		form = QuestionaireForm(request.POST)
-		if form.is_valid():
-			form.save(request.user)
+    if request.POST:
+        form = QuestionaireForm(request.POST)
+        if form.is_valid():
+            form.save(request.user)
 
-			return HttpResponseRedirect(reverse('questionaire-thanks'))
-	else:
-		form = QuestionaireForm()
+            return HttpResponseRedirect(reverse('questionaire-thanks'))
+    else:
+        form = QuestionaireForm()
 
-	return render(request, "questionaire/add_questionaire.html", {
-		"form" : form
-	})
+    return render(request, "questionaire/add_questionaire.html", {
+        "form" : form
+    })
 
 
 @staff_member_required
 def report(request):
-	"""
-	This report view is to report a csv file contains all the questionaires data
-	Only can viewed by staff members
-	"""
-	title = " Responses "
-	if request.POST:
-		form = DownloadResponseForm(request.POST)
-		if form.is_valid():
-			start_date = form.cleaned_data['start_date']
-			end_date = form.cleaned_data['end_date'] + timedelta(days=1)
+    """
+    This report view is to report a csv file contains all the questionaires data
+    Only can viewed by staff members
+    """
+    title = " Responses "
+    if request.POST:
+        form = DownloadResponseForm(request.POST)
+        if form.is_valid():
+            start_date = form.cleaned_data['start_date']
+            end_date = form.cleaned_data['end_date'] + timedelta(days=1)
 
-			questionaires = Questionaire.objects.filter(created_on__lt=end_date,created_on__gte=start_date)
-			filename = "Report Responses from " + start_date.strftime("%Y-%m-%d") + " to " + end_date.strftime("%Y-%m-%d")
+            questionaires = Questionaire.objects.filter(created_on__lt=end_date,created_on__gte=start_date)
+            filename = "Report Responses from " + start_date.strftime("%Y-%m-%d") + " to " + end_date.strftime("%Y-%m-%d")
 
-			http_response = HttpResponse()
-			http_response = HttpResponse(content_type='text/csv')
-			http_response['Content-Disposition'] = 'attachment; filename="%s.csv"' % (filename)
+            http_response = HttpResponse()
+            http_response = HttpResponse(content_type='text/csv')
+            http_response['Content-Disposition'] = 'attachment; filename="%s.csv"' % (filename)
 
-			writer = UnicodeWriter(http_response)
-			header = ["submitted on", "odin name", "student name", "mentor name", "primary_concern", "step_taken", "support_from_MAPS", "follow_up_email", "follow_up_phone", "follow_up_appointment"]
-			writer.writerow(header)
-			
-			for questionaire in questionaires:
-				csv_row = []
-				csv_row.append(localtime(questionaire.created_on).strftime("%Y-%m-%d %H:%M:%S"))
-				csv_row.append(questionaire.user.username)
-				csv_row.append(questionaire.student_name)
-				csv_row.append(questionaire.mentor_name)
-				csv_row.append(questionaire.primary_concern)
-				csv_row.append(questionaire.step_taken)
-				csv_row.append(questionaire.support_from_MAPS)
-				csv_row.append(questionaire.follow_up_email)
-				csv_row.append(questionaire.follow_up_phone)
-				if questionaire.follow_up_appointment:
-					csv_row.append(questionaire.follow_up_appointment.strftime("%Y-%m-%d"))
+            writer = UnicodeWriter(http_response)
+            header = ["submitted on", "odin name", "student name", "mentor name", "primary_concern", "step_taken", "support_from_MAPS", "follow_up_email", "follow_up_phone", "follow_up_appointment"]
+            writer.writerow(header)
+            
+            for questionaire in questionaires:
+                csv_row = []
+                csv_row.append(localtime(questionaire.created_on).strftime("%Y-%m-%d %H:%M:%S"))
+                csv_row.append(questionaire.user.username)
+                csv_row.append(questionaire.student_name)
+                csv_row.append(questionaire.mentor_name)
+                csv_row.append(questionaire.primary_concern)
+                csv_row.append(questionaire.step_taken)
+                csv_row.append(questionaire.support_from_MAPS)
+                csv_row.append(questionaire.follow_up_email)
+                csv_row.append(questionaire.follow_up_phone)
+                if questionaire.follow_up_appointment:
+                    csv_row.append(questionaire.follow_up_appointment.strftime("%Y-%m-%d"))
 
-				writer.writerow(csv_row)
+                writer.writerow(csv_row)
 
-			return http_response
-	else:
-		form = DownloadResponseForm()
+            return http_response
+    else:
+        form = DownloadResponseForm()
 
-	return render(request, "admin/download_csv.html", {
-		"form" : form,
-		"title" : title,
-	})
+    return render(request, "admin/download_csv.html", {
+        "form" : form,
+        "title" : title,
+    })

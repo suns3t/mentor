@@ -5,9 +5,9 @@
 {% load questionaire_tags %}
 {% block content %}
 <script type="text/javascript">
-	$(function() {
-		$("#id_follow_up_appointment").datepicker();
-	});
+    $(function() {
+        $("#id_follow_up_appointment").datepicker();
+    });
 </script>
 <div class='wrap'>
 
@@ -16,43 +16,139 @@
         <p class="error">Errors detected: Please correct them before you can continue.</p>
     {% endif %}
 
-	<form method="post" enctype="multipart/form-data">
-		{% csrf_token %}
-		{% for field in form %}
-		<div class="textWrapper">
-			{% if field|field_type:'emailinput' %}
-			<label>How would you like us to follow-up with you? (Fill at least one method below):</label>
-			{{ form.non_field_errors }}
-			{% endif %}
-			{% if not field|field_type:'textarea' %}
-					<div style="display:inline-block">
-						{{ field.label_tag }} 
-					</div>
-					<div style="display:inline-block">
-						{{ field }}
-					</div>
-					<div style="display:inline-block">
-						{{ field.errors }}
-					</div>
-			{% else %}
-			<div class="textWrapper">
-			{{ field.label_tag }}
-			</div>
-			<div class="textWrapper">
-			{{ field.errors }}
-			</div>
-			<div class="textWrapper">
-			{{ field }}
-			</div>
-			{% endif %}
-		</div>
-		{% endfor %}
-		<br/>
-		<div class="textWrapper">
-			<input class="button submit-button" type="submit" name="submit" value="Submit" style="margin-left: 5px;"/>
-		</div>
-		<div class="clear"></div>
-	</form>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- Student name field -->
+        <div style="display:inline-block">
+            {{ form.student_name.label_tag }} 
+        </div>
+        <div style="display:inline-block">
+        {% if user.is_student %}
+            <input id="id_student_name" name="student_name" type="text" value="{% firstof user.get_full_name %}">
+        {% else %}
+            {{ form.student_name }}
+        {% endif %}
+        </div>
+        <div style="display:inline-block">
+            {{ form.student_name.errors }}
+        </div>
+        <br/>
+
+        <!-- Mentor name field -->
+        <div style="display:inline-block">
+            {{ form.mentor_name.label_tag }} 
+        </div>
+        <div style="display:inline-block">
+        {% if user.is_mentor %}
+            <input id="id_mentor_name" name="mentor_name" type="text" value="{% firstof user.get_full_name %}">
+        {% else %}
+            {{ form.mentor_name }}
+        {% endif %}
+        </div>
+        <div style="display:inline-block">
+            {{ form.mentor_name.errors }}
+        </div>
+        <br/>
+
+        <!-- Identity form field -->
+        <div style="display:inline-block">
+            {{ form.identity.label_tag }} 
+        </div>
+        <div style="display:inline-block">
+        {% if user.is_mentor %}
+            <select id="id_identity" name="identity">
+                <option value="MT">Mentor</option>
+                <option value="ST">Student</option>
+            </select>
+        {% else %}
+            {{ form.identity }}
+        {% endif %}
+        </div>
+        <div style="display:inline-block">
+            {{ form.identity.errors }}
+        </div>
+        <br/>
+
+        <!-- Primary concernt field -->
+        <div class="textWrapper">
+            {{ form.primary_concern.label_tag }}
+        </div>
+        <div class="textWrapper">
+            {{ form.primary_concern.errors }}
+        </div>
+        <div class="textWrapper">
+            {{ form.primary_concern }}
+        </div>
+
+        <!-- Step taken form field -->
+        <div class="textWrapper">
+            {{ form.step_taken.label_tag }}
+        </div>
+        <div class="textWrapper">
+            {{ form.step_taken.errors }}
+        </div>
+        <div class="textWrapper">
+            {{ form.step_taken }}
+        </div>
+
+        <!-- Support from MAPS field -->
+        <div class="textWrapper">
+            {{ form.support_from_MAPS.label_tag }}
+        </div>
+        <div class="textWrapper">
+            {{ form.support_from_MAPS.errors }}
+        </div>
+        <div class="textWrapper">
+            {{ form.support_from_MAPS }}
+        </div>
+
+        <!-- Follow up method field -->
+        <label>How would you like us to follow-up with you? (Fill at least ONE method below):</label>
+        {{ form.non_field_errors }}
+
+        <!-- Via email -->
+        <div style="display:inline-block">
+            {{ form.follow_up_email.label_tag }} 
+        </div>
+        <div style="display:inline-block">
+            {{ form.follow_up_email }}
+        </div>
+        <div style="display:inline-block">
+            {{ form.follow_up_email.errors }}
+        </div>
+        <br/>
+
+        <!-- Via phone -->
+        <div style="display:inline-block">
+            {{ form.follow_up_phone.label_tag }} 
+        </div>
+        <div style="display:inline-block">
+            {{ form.follow_up_phone }}
+        </div>
+        <div style="display:inline-block">
+            {{ form.follow_up_phone.errors }}
+        </div>
+        <br/>
+
+        <!-- By an appointment -->
+        <div style="display:inline-block">
+            {{ form.follow_up_appointment.label_tag }} 
+        </div>
+        <div style="display:inline-block">
+            {{ form.follow_up_appointment }}
+        </div>
+        <div style="display:inline-block">
+            {{ form.follow_up_appointment.errors }}
+        </div>
+        <br/>
+        <br/>
+
+        <!-- Submit button -->
+        <div class="textWrapper">
+            <input class="button submit-button" type="submit" name="submit" value="Submit" style="margin-left: 5px;"/>
+        </div>
+        <div class="clear"></div>
+    </form>
 
 </div>
 {% endblock %}
