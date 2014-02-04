@@ -72,3 +72,9 @@ class DownloadResponseFormTest(AdminLogin):
 
         form = DownloadResponseForm(data)
         self.assertFalse(form.is_valid())
+
+    def test_empty_date(self):
+        data = {}
+
+        form = DownloadResponseForm(data)
+        self.assertFalse(form.is_valid())

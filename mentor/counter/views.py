@@ -8,6 +8,8 @@ from django.contrib.admin.views.decorators import staff_member_required
 from mentor.utils import UnicodeWriter
 from mentor.questionaire.forms import DownloadResponseForm
 from django.db.models import Count
+import pytz 
+from django.conf import settings
 # Create your views here.
 
 def goto(request, url=None):
@@ -32,7 +34,11 @@ def report(request):
             start_date = form.cleaned_data['start_date']
             end_date = form.cleaned_data['end_date'] + timedelta(days=1)
 
-            counters = Counter.objects.filter(timestamp__lt=end_date,timestamp__gte=start_date)
+            our_timezone = pytz.timezone(settings.TIME_ZONE)
+            start_date_tz = our_timezone.localize(datetime.combine(start_date, datetime.min.time()))
+            end_date_tz = our_timezone.localize(datetime.combine(end_date, datetime.min.time()))
+
+            counters = Counter.objects.filter(timestamp__lt=end_date_tz,timestamp__gte=start_date_tz)
             filename = "Report Click-through data from " + start_date.strftime("%Y-%m-%d") + " to " + end_date.strftime("%Y-%m-%d")
 
             http_response = HttpResponse()

@@ -11,7 +11,8 @@ from django.contrib.admin.views.decorators import staff_member_required
 from datetime import date, timedelta, datetime
 from django.utils.timezone import localtime
 from mentor.utils import UnicodeWriter
-
+import pytz
+from django.conf import settings
 # Create your views here.
 
 @login_required
@@ -46,10 +47,16 @@ def report(request):
         form = DownloadResponseForm(request.POST)
         if form.is_valid():
             start_date = form.cleaned_data['start_date']
+            #import pdb; pdb.set_trace()
             end_date = form.cleaned_data['end_date'] + timedelta(days=1)
 
-            questionaires = Questionaire.objects.filter(created_on__lt=end_date,created_on__gte=start_date)
             filename = "Report Responses from " + start_date.strftime("%Y-%m-%d") + " to " + end_date.strftime("%Y-%m-%d")
+            
+            our_timezone = pytz.timezone(settings.TIME_ZONE)
+            start_date_tz = our_timezone.localize(datetime.combine(start_date, datetime.min.time()))
+            end_date_tz = our_timezone.localize(datetime.combine(end_date, datetime.min.time()))
+
+            questionaires = Questionaire.objects.filter(created_on__lt=end_date_tz,created_on__gte=start_date_tz)
 
             http_response = HttpResponse()
             http_response = HttpResponse(content_type='text/csv')
