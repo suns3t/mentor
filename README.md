@@ -1,6 +1,6 @@
 # MAPS Mentor Webform 
 ## Install
-Install neccessary softwares for the project
+Go to mentor directory, install neccessary softwares for the project
 
     virtualenv-2.6 --no-site-packages .env
     source .env/bin/activate
