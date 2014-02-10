@@ -9,7 +9,7 @@ Install neccessary softwares for the project
     
 Create a local copy of the example settings, and configure the SECRET_KEY and DB config
 
-    cp mentor/settings/local.py.example aol/settings/local.py
+    cp mentor/settings/local.py.example mentor/settings/local.py
     vi mentor/settings/local.py
     
 Change some settings for the website in base.py such as EMAIL_LIST
