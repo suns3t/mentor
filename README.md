@@ -6,6 +6,9 @@ Go to mentor directory, install neccessary softwares for the project
     source .env/bin/activate
     pip install -r requirements.txt
     
+Install freetype-devel in order to use captcha package
+
+    yum install freetype-devel
     
 Create a local copy of the example settings, and configure the SECRET_KEY and DB config
 
