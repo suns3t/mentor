@@ -111,6 +111,10 @@ td.error input {
     font-size:11px;
 }
 
+.hidden {
+    display: none;
+}
+
 .clear {
     clear:both;
 }

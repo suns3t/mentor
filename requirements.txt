@@ -3,3 +3,4 @@ mysql-python==1.2.4
 -e git://github.com/mdj2/djangocas.git#egg=djangocas
 python-ldap==2.3.13
 pytz
+django-simple-captcha==0.4.1

@@ -10,19 +10,20 @@ class Questionaire(models.Model):
     questionaire_id = models.AutoField(primary_key=True)
     created_on = models.DateTimeField(auto_now_add=True)
 
-
-    
-
     # User submited this form
     user = models.ForeignKey(User)
 
     # Questions
-    student_name = models.CharField(max_length=30, blank=False) # Student name
+    student_name = models.CharField(max_length=30, blank=False)     # Student name
     mentor_name = models.CharField(max_length=30, blank=False)      # Mentor name
-    identity = models.CharField(max_length=2, blank=False)                      # Are you a Student or mentor(choice field/auto)
+    who_fill_form = models.CharField(max_length=2, blank=False)     # Who fill in the form, mentor/student?
 
+    UNST_course = models.CharField(max_length=10, blank=True)       # What University Studies course are you enrolled in?
+    type_of_course = models.CharField(max_length=10, blank=True)    # Is your UNST course in-person or online?
+    
     primary_concern = models.TextField(blank=False)                 # What are your primary concerns?
     step_taken = models.TextField(blank=True)                       # Please share the steps you've taken to address these concerns (if any)
+    when_take_step = models.TextField(blank=True)                   # When did you take these steps? (Dropdown menu)
     support_from_MAPS = models.TextField(blank=True)                # What kind of support would be helpful from the MAPS team?
     
     follow_up_email = models.EmailField(null=True,blank=True)

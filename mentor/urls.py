@@ -31,12 +31,17 @@ urlpatterns = patterns('',
 
 )
 
+# captcha
+urlpatterns += patterns('',
+    url(r'^captcha/', include('captcha.urls')),
+)
+
 # djangocas
 if settings.USE_CAS:
-    urlpatterns = patterns('',
+    urlpatterns += patterns('',
         url(r'^accounts/login/$', 'djangocas.views.login', name='account-login'),
         url(r'^accounts/logout/$', 'djangocas.views.logout', name='account-logout'),
-        ) + urlpatterns
+        )
 
     # urlpatterns = patterns('django.views.generic.simple', ('^admin/logout/$', 'redirect_to' ,
     #         {'url': '../../accounts/logout'})) + urlpatterns

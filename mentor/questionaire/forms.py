@@ -1,6 +1,7 @@
 from django import forms
 from mentor.questionaire.models import Questionaire
 from datetime import date 
+from captcha.fields import CaptchaField
 
 class QuestionaireForm(forms.ModelForm):
 
@@ -10,9 +11,41 @@ class QuestionaireForm(forms.ModelForm):
         (STUDENT, 'Student'),
         (MENTOR, 'Mentor'),
     )
-    student_name = forms.CharField(error_messages={'required':'Please enter student name'})
-    mentor_name = forms.CharField(error_messages={'required':'Please enter mentor name'}, required=False)
+
+    UNST_CHOICES = (
+        ('FRINQ','FRINQ (Freshman Inquiry)'),
+        ('SINQ','SINQ (Sophomore Inquiry)')
+    )
+
+    COURSE_TYPE_CHOICES = (
+        ('HB','Hybrid'),
+        ('OL','Online'),
+        ('IP','In-person')
+    )
     
+    WHEN_CHOICES = (
+        ('Few days', 'In the past few days'),
+        ('Last week', 'In the last week'),
+        ('Last two weeks', 'In the last two weeks'),
+        ('Last month', 'In the last month'),
+        ('Over a month', 'Over a month ago'),
+        ('Dont know', "Don't know/Other")
+    )
+    name = forms.CharField(label='Name',error_messages={'required':'Please enter your name'})
+    student_ID = forms.DecimalField(label='Student ID# (optional)')
+    student_name = forms.CharField(label='Name of student',
+        error_messages={'required':'Please enter student name'})
+    mentor_name = forms.CharField(label='Name of mentor',
+        error_messages={'required':'Please enter mentor name'})
+    
+    UNST_course = forms.ChoiceField(
+        choices=UNST_CHOICES,
+        label='What University Studies course are you enrolled in?')
+
+    type_of_course = forms.ChoiceField(
+        choices=COURSE_TYPE_CHOICES,
+        label='Is your UNST course in-person or online or hybrid?')
+
     identity = forms.ChoiceField(
         choices=IDENTITY_CHOICES,
         label='Are you a student or a mentor?')
@@ -26,6 +59,11 @@ class QuestionaireForm(forms.ModelForm):
         label="Please share the steps you've taken to address these concerns (if any)",
         required=False,
     )
+
+    when_take_step = forms.ChoiceField(
+        choices=WHEN_CHOICES,
+        label='When did you take these steps?'
+    )
     
     support_from_MAPS = forms.CharField(
         widget=forms.widgets.Textarea,
@@ -38,13 +76,14 @@ class QuestionaireForm(forms.ModelForm):
         required=False)
     follow_up_phone = forms.CharField(
         error_messages={'required':'Please insert an appropriate phone number'},
-        widget=forms.widgets.TextInput,
         label='Phone call',
         required=False)
     follow_up_appointment = forms.DateField(
-        label='Personal meeting on',
+        label='Face-to-face meeting in',
         required=False)
 
+    captcha = CaptchaField(label='Verify Code', required=True)
+    
     def save(self, user, *args, **kwargs):
         """
         Overide the save method to input username automatically from
