@@ -5,63 +5,67 @@
 {% load questionaire_tags %}
 {% block content %}
 <script type="text/javascript">
-    $(function() {
-        $("#id_follow_up_appointment").datepicker();
 
-        $("input:radio").click(function(event) {
-            var identity = $("input:radio[name='identity']:checked").val();
-            var who_fill_form = $("input:radio[name='who_fill_form']:checked").val();
+    function show_fields(){
+        var identity = $("input:radio[name='identity']:checked").val();
+        var who_fill_form = $("input:radio[name='on_behalf_of_student']:checked").val();
 
-            if (this.name == 'identity') {
-                if (identity == "ST") {
-                    // Show student view: Name of mentor, university study, concern
-                    $("#id_hidden_mentor_name").show("slow")
+        if (identity == "ST") {
+            // Show student view: Name of mentor, university study, concern
+            $("#id_hidden_mentor_name").show("slow")
+            $("#id_hidden_university_studies").show("slow")
+            $("#id_hidden_concern").show("slow")
+
+            // Hide other parts
+            $("#id_hidden_student_name").hide()
+            $("#id_hidden_who_fill_form").hide()
+
+        }
+
+        else if (identity == "MT") {
+            if (who_fill_form) {
+                if (who_fill_form == 'Y') {
+                    // Show mentor view to fill student problem: name of student, university study, concern
+                    $("#id_hidden_student_name").show("slow")
                     $("#id_hidden_university_studies").show("slow")
                     $("#id_hidden_concern").show("slow")
+                    $("#id_hidden_who_fill_form").show("slow")
 
                     // Hide other parts
-                    $("#id_hidden_student_name").hide()
-                    $("#id_hidden_who_fill_form").hide()
-
+                    $("#id_hidden_mentor_name").hide()
                 }
 
-                else {
-                    // Show mentor view: Ask if it is mentor's problem or student's problem
+                else if(who_fill_form == "N") {
+                    // Show mentor view to fill mentor problem
+                    $("#id_hidden_concern").show("slow")
                     $("#id_hidden_who_fill_form").show("slow")
 
                     // Hide other parts
                     $("#id_hidden_student_name").hide()
                     $("#id_hidden_mentor_name").hide()
                     $("#id_hidden_university_studies").hide()
-                    $("#id_hidden_concern").hide()
-
                 }
             }
-            else if (this.name == 'who_fill_form') {
-                if (who_fill_form == 'Y') {
-                    // Show mentor view to fill student problem: name of student, university study, concern
-                    $("#id_hidden_student_name").show("slow")
-                    $("#id_hidden_university_studies").show("slow")
-                    $("#id_hidden_concern").show("slow")
+            else {
+                // Show mentor view: Ask if it is mentor's problem or student's problem
+                $("#id_hidden_who_fill_form").show("slow")
 
-                    // Hide other parts
-                    $("#id_hidden_mentor_name").hide()
-                }
-
-                else {
-                    // Show mentor view to fill mentor problem
-                    $("#id_hidden_concern").show("slow")
-
-                    // Hide other parts
-                    $("#id_hidden_student_name").hide()
-                    $("#id_hidden_mentor_name").hide()
-                    $("#id_hidden_university_studies").hide()
-                }
-                
+                // Hide other parts
+                $("#id_hidden_student_name").hide()
+                $("#id_hidden_mentor_name").hide()
+                $("#id_hidden_university_studies").hide()
+                $("#id_hidden_concern").hide()
             }
-             
 
-        });
+        }
+    }
+
+    $(function() {
+        $("#id_follow_up_appointment").datepicker();
+        show_fields();
+        $("input:radio").click(show_fields);
+
+        
 
     });
 </script>
@@ -80,7 +84,9 @@
         <div style="display:inline-block">
             {{ form.name.label_tag}}
         </div>
-        <input id="id_name" name="student_name" type="text" value="{% firstof user.get_full_name %}">
+        <div style="display:inline-block">
+            {{ form.name }}
+        </div>
         <div style="display:inline-block">
             {{ form.name.errors }}
         </div>
@@ -106,16 +112,15 @@
             {{ form.identity.errors }}
         </div>
         <div class"textWrapper">
-            <input type="radio" name="identity" value="ST">Student<br>
-            <input type="radio" name="identity" value="MT">Mentor
+            {{ form.identity }}
         </div>
         
 
         <!-- PART 2: Mentor fill out the form about student/mentor problem -->
         <div id="id_hidden_who_fill_form" class="hidden">
-            <label>Are you filling out this form on behalf of student?</label>
-            <input type='radio' name="who_fill_form" value="Y">Yes<br>
-            <input type='radio' name="who_fill_form" value="N">No<br/>
+            {{ form.on_behalf_of_student.label_tag }}
+            {{ form.on_behalf_of_student }}
+            {{ form.on_behalf_of_student.errors }}
 
         </div>
 

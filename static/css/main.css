@@ -77,24 +77,20 @@ textarea {
     color:#ff0000;
 }
 
-.select-multiple {
-    overflow:auto;
-    height:200px;
-    width:420px;
-}
 
-.select-multiple ul {
+
+ul {
     list-style-type:none;
     margin:0;
     padding:0;
 }
 
-.select-multiple label {
+ul label {
     margin:0;
     padding:0;
 }
 
-.select-multiple ul.checkbox-group {
+ul.checkbox-group {
     margin-left:10px;
 }
 

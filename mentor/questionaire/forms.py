@@ -31,12 +31,17 @@ class QuestionaireForm(forms.ModelForm):
         ('Over a month', 'Over a month ago'),
         ('Dont know', "Don't know/Other")
     )
+
+    YN_CHOICES = (
+        ('Y','Yes'),
+        ('N','No')
+    )
     name = forms.CharField(label='Name',error_messages={'required':'Please enter your name'})
-    student_ID = forms.DecimalField(label='Student ID# (optional)')
-    student_name = forms.CharField(label='Name of student',
-        error_messages={'required':'Please enter student name'})
-    mentor_name = forms.CharField(label='Name of mentor',
-        error_messages={'required':'Please enter mentor name'})
+
+    student_ID = forms.DecimalField(label='Student ID# (optional)', required=False)
+
+    student_name = forms.CharField(label='Name of student',required=False)
+    mentor_name = forms.CharField(label='Name of mentor',required=False)
     
     UNST_course = forms.ChoiceField(
         choices=UNST_CHOICES,
@@ -48,8 +53,13 @@ class QuestionaireForm(forms.ModelForm):
 
     identity = forms.ChoiceField(
         choices=IDENTITY_CHOICES,
-        label='Are you a student or a mentor?')
+        label='Are you a student or a mentor?',
+        widget=forms.RadioSelect())
     
+    on_behalf_of_student = forms.ChoiceField(
+        choices=YN_CHOICES,
+        label='Are you filling out this form on behalf of student?',
+        widget=forms.RadioSelect())
     primary_concern = forms.CharField(
         widget=forms.widgets.Textarea,
         label='What are your primary concerns?',)
@@ -113,9 +123,27 @@ class QuestionaireForm(forms.ModelForm):
         phone = cleaned_data.get("follow_up_phone")
         appointment = cleaned_data.get("follow_up_appointment")
 
-        # import pdb; pdb.set_trace();
+        import pdb; pdb.set_trace();
+        
         if not email and not appointment and not phone :
             raise forms.ValidationError('Fill at least one method to follow-up you')
+
+
+        name = cleaned_data.get("name")
+        student_name = cleaned_data.get("student_name")
+        mentor_name = cleaned_data.get("mentor_name")
+
+        identity = cleaned_data.get("identity")
+
+        if identity == 'ST':
+            # Student is filling out the form, pop out name and assign that value to student_name
+            cleaned_data.pop("name", None)
+            cleaned_data["student_name"] = name
+        elif identity == 'MT':
+            cleaned_data.pop("name", None)
+            cleaned_data["mentor_name"] = name
+
+        
 
         return cleaned_data
     class Meta:

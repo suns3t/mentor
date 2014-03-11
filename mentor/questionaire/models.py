@@ -14,9 +14,12 @@ class Questionaire(models.Model):
     user = models.ForeignKey(User)
 
     # Questions
-    student_name = models.CharField(max_length=30, blank=False)     # Student name
-    mentor_name = models.CharField(max_length=30, blank=False)      # Mentor name
-    who_fill_form = models.CharField(max_length=2, blank=False)     # Who fill in the form, mentor/student?
+    student_name = models.CharField(max_length=30, blank=True)     # Student name
+    student_ID = models.CharField(max_length=15, blank=True)       # Student ID
+    mentor_name = models.CharField(max_length=30, blank=True)      # Mentor name
+    
+    identity = models.CharField(max_length=2,blank=True)           # Are you mentor or  
+    on_behalf_of_student = models.CharField(max_length=2, blank=True)     # Are you filling out this form on behalf of student?
 
     UNST_course = models.CharField(max_length=10, blank=True)       # What University Studies course are you enrolled in?
     type_of_course = models.CharField(max_length=10, blank=True)    # Is your UNST course in-person or online?
