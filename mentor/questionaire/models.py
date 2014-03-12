@@ -33,7 +33,6 @@ class Questionaire(models.Model):
     follow_up_phone = models.DecimalField(null=True,max_digits=10,decimal_places=0,blank=True)
     follow_up_appointment = models.DateField(null=True,blank=True)
 
-
     def sendNotification(self):
 
         # Send a notification email to the person signed in

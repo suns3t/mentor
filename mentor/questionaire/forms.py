@@ -3,6 +3,27 @@ from mentor.questionaire.models import Questionaire
 from datetime import date 
 from captcha.fields import CaptchaField
 
+class USPhoneNumberMultiWidget(forms.MultiWidget):
+    """
+    A Widget that splits US Phone number input into three  boxes.
+    """
+    def __init__(self,attrs=None):
+        widgets = (
+            forms.TextInput(attrs={'size':'3','maxlength':'3', 'class':'phone'}),
+            forms.TextInput(attrs={'size':'3','maxlength':'3', 'class':'phone'}),
+            forms.TextInput(attrs={'size':'4','maxlength':'4', 'class':'phone'}),
+        )
+        super(USPhoneNumberMultiWidget, self).__init__(widgets, attrs)
+
+    def decompress(self, value):
+        if value:
+            return [value[0:3],value[3:6],value[6:10]]
+        return [None,None,None]
+
+    def value_from_datadict(self, data, files, name):
+        values = super(USPhoneNumberMultiWidget, self).value_from_datadict(data, files, name)
+        return u'%s%s%s' % tuple(values)
+
 class QuestionaireForm(forms.ModelForm):
 
     STUDENT = 'ST'
@@ -85,10 +106,13 @@ class QuestionaireForm(forms.ModelForm):
         widget=forms.widgets.EmailInput,
         label='Email',
         required=False)
+
     follow_up_phone = forms.DecimalField(
+        widget = USPhoneNumberMultiWidget,
         error_messages={'required':'Please insert an appropriate phone number'},
-        label='Phone call',
+        label='Phone number',
         required=False)
+
     follow_up_appointment = forms.DateField(
         label='Face-to-face meeting in',
         required=False)
@@ -106,7 +130,6 @@ class QuestionaireForm(forms.ModelForm):
         post.sendNotification() 
 
     def clean_on_behalf_of_student(self):
-
         on_behalf_of_student = self.cleaned_data.get("on_behalf_of_student")
         identity = self.cleaned_data.get("identity")
 
@@ -129,27 +152,27 @@ class QuestionaireForm(forms.ModelForm):
 
         return appointment
 
-    def clean_student_name(self):
-        student_name = self.cleaned_data.get("student_name")
-        identity = self.cleaned_data.get("identity")
-        on_behalf_of_student = self.cleaned_data.get("on_behalf_of_student")
-
-        # Student name is required when mentor fills out the form on behalf of student.
-        if (identity == 'MT') and (on_behalf_of_student == 'Y') and not student_name:
-            raise forms.ValidationError('Please enter student name')
-
-        return student_name
-
     def clean_mentor_name(self):
         mentor_name = self.cleaned_data.get("mentor_name")
         identity = self.cleaned_data.get("identity")
 
-        import pdb; pdb.set_trace();
         # Mentor name is required when student fill out the form.
-        if (identity == 'ST') and (not mentor_name):
+        if (identity == 'ST') and (mentor_name == ''):
             raise forms.ValidationError('Please enter mentor name')
 
         return mentor_name
+
+    def clean_student_name(self):
+        student_name = self.cleaned_data.get("student_name")
+        on_behalf_of_student = self.cleaned_data.get("on_behalf_of_student")
+        identity = self.cleaned_data.get("identity")
+
+        # Student name is required when mentor fills out the form on behalf of student.
+        if (identity == 'MT') and (on_behalf_of_student == 'Y') and (student_name == ''):
+            raise forms.ValidationError('Please enter student name')
+
+        return student_name
+
 
     def clean(self):
         cleaned_data = super(QuestionaireForm, self).clean()
@@ -157,7 +180,7 @@ class QuestionaireForm(forms.ModelForm):
         name = cleaned_data.get("name")
         student_name = cleaned_data.get("student_name")
         mentor_name = cleaned_data.get("mentor_name")
-
+        on_behalf_of_student = cleaned_data.get("on_behalf_of_student")
         identity = cleaned_data.get("identity")
 
         if identity == 'ST':
@@ -175,8 +198,6 @@ class QuestionaireForm(forms.ModelForm):
         phone = cleaned_data.get("follow_up_phone")
         appointment = cleaned_data.get("follow_up_appointment")
 
-        
-        
         if not email and not appointment and not phone :
             raise forms.ValidationError('Fill at least one method to follow-up you')
 
@@ -185,11 +206,11 @@ class QuestionaireForm(forms.ModelForm):
     class Meta:
         model = Questionaire 
         fields = (
+            'identity',
+            'on_behalf_of_student',
             'student_name',
             'student_ID',
             'mentor_name',
-            'identity',
-            'on_behalf_of_student',
             'UNST_course',
             'type_of_course',
             'primary_concern',

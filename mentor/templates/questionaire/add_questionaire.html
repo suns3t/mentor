@@ -65,7 +65,9 @@
         show_fields();
         $("input:radio").click(show_fields);
 
-        
+        $("#id_follow_up_phone_0").autotab({ format: 'number', target: '#id_follow_up_phone_1'});
+        $("#id_follow_up_phone_1").autotab({ format: 'number', target: '#id_follow_up_phone_2', previous: '#id_follow_up_phone_0'});
+        $("#id_follow_up_phone_2").autotab({ format: 'number', previous: '#id_follow_up_phone_1'});
 
     });
 </script>

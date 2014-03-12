@@ -71,7 +71,7 @@ def report(request):
                 csv_row.append(localtime(questionaire.created_on).strftime("%Y-%m-%d %H:%M:%S"))
                 csv_row.append(questionaire.user.username)
                 csv_row.append(questionaire.student_name)
-                csv_row.append(questionaire.student_ID)
+                csv_row.append(str(questionaire.student_ID))
                 csv_row.append(questionaire.mentor_name)
                 csv_row.append(questionaire.identity)
                 csv_row.append(questionaire.on_behalf_of_student)
@@ -80,7 +80,7 @@ def report(request):
                 csv_row.append(questionaire.when_take_step)
                 csv_row.append(questionaire.support_from_MAPS)
                 csv_row.append(questionaire.follow_up_email)
-                csv_row.append(questionaire.follow_up_phone)
+                csv_row.append(str(questionaire.follow_up_phone))
                 if questionaire.follow_up_appointment:
                     csv_row.append(questionaire.follow_up_appointment.strftime("%Y-%m-%d"))
 
