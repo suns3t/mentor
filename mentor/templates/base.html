@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block page_title %}{{ page_title }}{% endblock %}</title>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
         <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}js/autotab/jquery.autotab.js"></script>
-        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/main.css">
+        <script type="text/javascript" src="{{ STATIC_URL }}bootstrap-3.1.1-dist/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bootstrap-3.1.1-dist/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bootstrap-3.1.1-dist/css/bootstrap-theme.min.css">
         <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery-ui.css">
     </head>
     <body>
         {% block body %}
-            <div id="header">
+            <div id="header" class="page-header">
                 {% block hearder %}
                     <div id="header-inner">
                         {% block header_title %}

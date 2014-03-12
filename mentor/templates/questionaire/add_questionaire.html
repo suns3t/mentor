@@ -12,9 +12,9 @@
 
         if (identity == "ST") {
             // Show student view: Name of mentor, university study, concern
-            $("#id_hidden_mentor_name").show("slow")
-            $("#id_hidden_university_studies").show("slow")
-            $("#id_hidden_concern").show("slow")
+            $("#id_hidden_mentor_name").show()
+            $("#id_hidden_university_studies").show()
+            $("#id_hidden_concern").show()
 
             // Hide other parts
             $("#id_hidden_student_name").hide()
@@ -26,10 +26,10 @@
             if (who_fill_form) {
                 if (who_fill_form == 'Y') {
                     // Show mentor view to fill student problem: name of student, university study, concern
-                    $("#id_hidden_student_name").show("slow")
-                    $("#id_hidden_university_studies").show("slow")
-                    $("#id_hidden_concern").show("slow")
-                    $("#id_hidden_who_fill_form").show("slow")
+                    $("#id_hidden_student_name").show()
+                    $("#id_hidden_university_studies").show()
+                    $("#id_hidden_concern").show()
+                    $("#id_hidden_who_fill_form").show()
 
                     // Hide other parts
                     $("#id_hidden_mentor_name").hide()
@@ -37,8 +37,8 @@
 
                 else if(who_fill_form == "N") {
                     // Show mentor view to fill mentor problem
-                    $("#id_hidden_concern").show("slow")
-                    $("#id_hidden_who_fill_form").show("slow")
+                    $("#id_hidden_concern").show()
+                    $("#id_hidden_who_fill_form").show()
 
                     // Hide other parts
                     $("#id_hidden_student_name").hide()
@@ -48,7 +48,7 @@
             }
             else {
                 // Show mentor view: Ask if it is mentor's problem or student's problem
-                $("#id_hidden_who_fill_form").show("slow")
+                $("#id_hidden_who_fill_form").show()
 
                 // Hide other parts
                 $("#id_hidden_student_name").hide()
