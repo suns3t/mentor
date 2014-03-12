@@ -63,7 +63,7 @@ def report(request):
             http_response['Content-Disposition'] = 'attachment; filename="%s.csv"' % (filename)
 
             writer = UnicodeWriter(http_response)
-            header = ["submitted on", "odin name", "student name", "mentor name", "primary_concern", "step_taken", "support_from_MAPS", "follow_up_email", "follow_up_phone", "follow_up_appointment"]
+            header = ["submitted on", "odin name", "student name", "student_ID" ,"mentor name", "identity" , "on_behalf_of_student" , "primary_concern", "step_taken", "when_take_step" ,"support_from_MAPS", "follow_up_email", "follow_up_phone", "follow_up_appointment"]
             writer.writerow(header)
             
             for questionaire in questionaires:
@@ -71,9 +71,13 @@ def report(request):
                 csv_row.append(localtime(questionaire.created_on).strftime("%Y-%m-%d %H:%M:%S"))
                 csv_row.append(questionaire.user.username)
                 csv_row.append(questionaire.student_name)
+                csv_row.append(questionaire.student_ID)
                 csv_row.append(questionaire.mentor_name)
+                csv_row.append(questionaire.identity)
+                csv_row.append(questionaire.on_behalf_of_student)
                 csv_row.append(questionaire.primary_concern)
                 csv_row.append(questionaire.step_taken)
+                csv_row.append(questionaire.when_take_step)
                 csv_row.append(questionaire.support_from_MAPS)
                 csv_row.append(questionaire.follow_up_email)
                 csv_row.append(questionaire.follow_up_phone)

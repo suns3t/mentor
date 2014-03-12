@@ -38,7 +38,7 @@ class QuestionaireForm(forms.ModelForm):
     )
     name = forms.CharField(label='Name',error_messages={'required':'Please enter your name'})
 
-    student_ID = forms.DecimalField(label='Student ID# (optional)', required=False)
+    student_ID = forms.DecimalField(label='Student ID# (optional)', required=False, max_digits=9, decimal_places=0)
 
     student_name = forms.CharField(label='Name of student',required=False)
     mentor_name = forms.CharField(label='Name of mentor',required=False)
@@ -59,7 +59,8 @@ class QuestionaireForm(forms.ModelForm):
     on_behalf_of_student = forms.ChoiceField(
         choices=YN_CHOICES,
         label='Are you filling out this form on behalf of student?',
-        widget=forms.RadioSelect())
+        widget=forms.RadioSelect(),
+        required=False)
     primary_concern = forms.CharField(
         widget=forms.widgets.Textarea,
         label='What are your primary concerns?',)
@@ -84,7 +85,7 @@ class QuestionaireForm(forms.ModelForm):
         widget=forms.widgets.EmailInput,
         label='Email',
         required=False)
-    follow_up_phone = forms.CharField(
+    follow_up_phone = forms.DecimalField(
         error_messages={'required':'Please insert an appropriate phone number'},
         label='Phone call',
         required=False)
@@ -104,6 +105,19 @@ class QuestionaireForm(forms.ModelForm):
         post = super(QuestionaireForm, self).save(*args, **kwargs)
         post.sendNotification() 
 
+    def clean_on_behalf_of_student(self):
+
+        on_behalf_of_student = self.cleaned_data.get("on_behalf_of_student")
+        identity = self.cleaned_data.get("identity")
+
+        if (identity == 'MT') and (not on_behalf_of_student):
+            raise form.ValidationError('Please answer this question')
+
+        if (identity == 'ST'):
+            on_behalf_of_student = ''
+
+        return on_behalf_of_student
+
     def clean_follow_up_appointment(self):
         #cleaned_data = super(QuestionaireForm, self).clean_follow_up_appointment()
 
@@ -115,19 +129,30 @@ class QuestionaireForm(forms.ModelForm):
 
         return appointment
 
-    def clean(self):
-        cleaned_data = super(QuestionaireForm, self).clean()
+    def clean_student_name(self):
+        student_name = self.cleaned_data.get("student_name")
+        identity = self.cleaned_data.get("identity")
+        on_behalf_of_student = self.cleaned_data.get("on_behalf_of_student")
 
-        # Make sure that user enters at least one method of follow-up
-        email = cleaned_data.get("follow_up_email")
-        phone = cleaned_data.get("follow_up_phone")
-        appointment = cleaned_data.get("follow_up_appointment")
+        # Student name is required when mentor fills out the form on behalf of student.
+        if (identity == 'MT') and (on_behalf_of_student == 'Y') and not student_name:
+            raise forms.ValidationError('Please enter student name')
+
+        return student_name
+
+    def clean_mentor_name(self):
+        mentor_name = self.cleaned_data.get("mentor_name")
+        identity = self.cleaned_data.get("identity")
 
         import pdb; pdb.set_trace();
-        
-        if not email and not appointment and not phone :
-            raise forms.ValidationError('Fill at least one method to follow-up you')
+        # Mentor name is required when student fill out the form.
+        if (identity == 'ST') and (not mentor_name):
+            raise forms.ValidationError('Please enter mentor name')
 
+        return mentor_name
+
+    def clean(self):
+        cleaned_data = super(QuestionaireForm, self).clean()
 
         name = cleaned_data.get("name")
         student_name = cleaned_data.get("student_name")
@@ -139,21 +164,37 @@ class QuestionaireForm(forms.ModelForm):
             # Student is filling out the form, pop out name and assign that value to student_name
             cleaned_data.pop("name", None)
             cleaned_data["student_name"] = name
+        
         elif identity == 'MT':
+            # Mentor is filling out the form, pop out name and assign that value to mentor_name
             cleaned_data.pop("name", None)
             cleaned_data["mentor_name"] = name
 
+        # Make sure that user enters at least one method of follow-up
+        email = cleaned_data.get("follow_up_email")
+        phone = cleaned_data.get("follow_up_phone")
+        appointment = cleaned_data.get("follow_up_appointment")
+
         
+        
+        if not email and not appointment and not phone :
+            raise forms.ValidationError('Fill at least one method to follow-up you')
+
 
         return cleaned_data
     class Meta:
         model = Questionaire 
         fields = (
             'student_name',
+            'student_ID',
             'mentor_name',
             'identity',
+            'on_behalf_of_student',
+            'UNST_course',
+            'type_of_course',
             'primary_concern',
             'step_taken',
+            'when_take_step',
             'support_from_MAPS',
             'follow_up_email',
             'follow_up_phone',

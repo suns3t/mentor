@@ -15,22 +15,22 @@ class Questionaire(models.Model):
 
     # Questions
     student_name = models.CharField(max_length=30, blank=True)     # Student name
-    student_ID = models.CharField(max_length=15, blank=True)       # Student ID
+    student_ID = models.DecimalField(null=True,max_digits=9,decimal_places=0, blank=True)       # Student ID
     mentor_name = models.CharField(max_length=30, blank=True)      # Mentor name
     
-    identity = models.CharField(max_length=2,blank=True)           # Are you mentor or  
+    identity = models.CharField(max_length=2,blank=True)           # Are you mentor or student? 
     on_behalf_of_student = models.CharField(max_length=2, blank=True)     # Are you filling out this form on behalf of student?
 
-    UNST_course = models.CharField(max_length=10, blank=True)       # What University Studies course are you enrolled in?
-    type_of_course = models.CharField(max_length=10, blank=True)    # Is your UNST course in-person or online?
+    UNST_course = models.CharField(max_length=20, blank=True)       # What University Studies course are you enrolled in?
+    type_of_course = models.CharField(max_length=20, blank=True)    # Is your UNST course in-person or online?
     
     primary_concern = models.TextField(blank=False)                 # What are your primary concerns?
     step_taken = models.TextField(blank=True)                       # Please share the steps you've taken to address these concerns (if any)
-    when_take_step = models.TextField(blank=True)                   # When did you take these steps? (Dropdown menu)
+    when_take_step = models.CharField(max_length=20,blank=True)                   # When did you take these steps? (Dropdown menu)
     support_from_MAPS = models.TextField(blank=True)                # What kind of support would be helpful from the MAPS team?
     
     follow_up_email = models.EmailField(null=True,blank=True)
-    follow_up_phone = models.CharField(max_length=15,blank=True)
+    follow_up_phone = models.DecimalField(null=True,max_digits=10,decimal_places=0,blank=True)
     follow_up_appointment = models.DateField(null=True,blank=True)
 
 

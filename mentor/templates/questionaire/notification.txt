@@ -1,5 +1,3 @@
 {{ username }} Thank you for your response! 
 
-It has been submitted. Our mentors will contact you shortly
-
-questionaire
+It has been submitted. Our mentors will contact you shortly!

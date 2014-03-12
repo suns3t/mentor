@@ -3,12 +3,36 @@
 <p> A user named <b>{{ username }}</b> submitted a response at {{ questionaire.created_on }} </p>
 
 <p> Here is the detail of the response </p>
+{% if questionaire.identity == 'ST' %}
 <label>Student name: </label> {{ questionaire.student_name }} <br/>
+<label>Student ID: </label> {{ questionaire.student_ID }} <br/>
 <label>Mentor name: </label> {{ questionaire.mentor_name }} <br/>
 <label>Identity: </label> {{ questionaire.identity }}<br/>
+<label>UNST courses: </label> {{ questionaire.UNST_course }}<br/>
+<label>Online or in-person: </label> {{ questionaire.type_of_course }}<br/>
 <label>Primary concern: </label> {{ questionaire.primary_concern }}<br/>
 <label>Step taken: </label> {{ questionaire.step_taken }}<br/>
+<label>When: </label> {{ questionaire.when_take_step }}<br/>
 <label>Support from MAPS: </label> {{ questionaire.support_from_MAPS }}<br/>
 <label>Follow up email: </label>{{ questionaire.follow_up_email }}<br/>
 <label>Follow up phone: </label>{{ questionaire.follow_up_phone }}<br/>
 <label>Follow up appointment: </label>{{ questionaire.follow_up_appointment }}<br/>
+
+{% else %}
+
+<label>Mentor name: </label> {{ questionaire.mentor_name }} <br/>
+<label>Identity: </label> {{ questionaire.identity }}<br/>
+<label>Student name: </label> {{ questionaire.student_name }} <br/>
+<label>Student ID: </label> {{ questionaire.student_ID }} <br/>
+<label>Fill out on behalf of student: </label> {{ questionaire.on_behalf_of_student }} </br>
+<label>UNST courses: </label> {{ questionaire.UNST_course }}<br/>
+<label>Online or in-person: </label> {{ questionaire.type_of_course }}<br/>
+<label>Primary concern: </label> {{ questionaire.primary_concern }}<br/>
+<label>Step taken: </label> {{ questionaire.step_taken }}<br/>
+<label>When: </label> {{ questionaire.when_take_step }}<br/>
+<label>Support from MAPS: </label> {{ questionaire.support_from_MAPS }}<br/>
+<label>Follow up email: </label>{{ questionaire.follow_up_email }}<br/>
+<label>Follow up phone: </label>{{ questionaire.follow_up_phone }}<br/>
+<label>Follow up appointment: </label>{{ questionaire.follow_up_appointment }}<br/>
+
+{% endif %}
