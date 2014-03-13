@@ -83,11 +83,11 @@ class QuestionaireForm(forms.ModelForm):
         widget=forms.RadioSelect(),
         required=False)
     primary_concern = forms.CharField(
-        widget=forms.widgets.Textarea,
+        widget=forms.widgets.Textarea(attrs={'rows':'3'}),
         label='What are your primary concerns?',)
     
     step_taken = forms.CharField(
-        widget=forms.widgets.Textarea,
+        widget=forms.widgets.Textarea(attrs={'rows':'3'}),
         label="Please share the steps you've taken to address these concerns (if any)",
         required=False,
     )
@@ -98,7 +98,7 @@ class QuestionaireForm(forms.ModelForm):
     )
     
     support_from_MAPS = forms.CharField(
-        widget=forms.widgets.Textarea,
+        widget=forms.widgets.Textarea(attrs={'rows':'3'}),
         label="What kind of support did you receive from MAPS before?",
         required=False,
     )
@@ -116,10 +116,27 @@ class QuestionaireForm(forms.ModelForm):
     follow_up_appointment = forms.DateField(
         label='Face-to-face meeting in',
         required=False)
-
-    captcha = CaptchaField(label='Verify Code', required=True)
     
-  
+    def __init__(self, *args, **kwargs):
+        super(QuestionaireForm, self).__init__(*args, **kwargs)
+
+        self.fields['name'].widget.attrs['class'] = 'form-control input-sm'  
+        self.fields['student_ID'].widget.attrs['class'] = 'form-control input-sm'
+        self.fields['student_name'].widget.attrs['class'] = 'form-control input-sm'
+
+        self.fields['mentor_name'].widget.attrs['class'] = 'form-control input-sm'
+
+        self.fields['when_take_step'].widget.attrs['class'] = 'form-control input-sm'
+        self.fields['UNST_course'].widget.attrs['class'] = 'form-control input-sm'
+        self.fields['type_of_course'].widget.attrs['class'] = 'form-control input-sm'
+        self.fields['primary_concern'].widget.attrs['class'] ='form-control'
+        self.fields['step_taken'].widget.attrs['class'] ='form-control'
+        self.fields['when_take_step'].widget.attrs['class'] ='form-control'
+        self.fields['support_from_MAPS'].widget.attrs['class'] ='form-control'
+
+        self.fields['follow_up_phone'].widget.attrs['class'] ='form-control input-sm'
+        self.fields['follow_up_email'].widget.attrs['class'] ='form-control input-sm'
+        self.fields['follow_up_appointment'].widget.attrs['class'] ='form-control input-sm'
 
     def save(self, user, *args, **kwargs):
         """

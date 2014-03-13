@@ -9,36 +9,22 @@
         <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
         <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}js/autotab/jquery.autotab.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}bootstrap-3.1.1-dist/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bootstrap-3.1.1-dist/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bootstrap-3.1.1-dist/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery-ui.css">
+        <script type="text/javascript" src="{{ STATIC_URL }}bootstrap-3.1.1-dist/js/bootstrap.js"></script>
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bootstrap-3.1.1-dist/css/bootstrap.css">
     </head>
     <body>
-        {% block body %}
-            <div id="header" class="page-header">
-                {% block hearder %}
-                    <div id="header-inner">
-                        {% block header_title %}
-                        <a href="{% url 'home' %}"><img src="http://www.pdx.edu/sites/all/themes/pdx_primary/logo.png" /></a>
-                        <h1>University Studies: Mentor Program</h1>
-                        {% endblock %}
-                    </div>
-                {% endblock %}
-            </div>
-            <div id="navigation-inner">
-                {% if user.is_active %}
-                Hello, {% firstof user.get_full_name %}
-                <a href="{% url 'account-logout' %}"> Logout </a>
-                {% endif %}
-            </div>
-            <div id="content">
-                <div id="content-inner">
-                    {% block content %}{% endblock %}
-                </div>
+        <div class="container" role="main">
+            <div id="header" class="header">
+                    {% if user.is_active %}
+                    <a href="{% url 'account-logout' %}" class="btn btn-primary btn-sm pull-right" role="button">Logout</a>
+                    <p class="pull-right" style="padding: 5px">Hello, {% firstof user.get_full_name %}</p>
+                    {% endif %}
+                <h3><a href="{% url 'home' %}"><img src="http://www.pdx.edu/sites/all/themes/pdx_primary/logo.png" /></a>University studies</h3>
             </div>
 
-            <div id="footer">
+            {% block content %}{% endblock %}
+
+            <div id="footer" class="footer">
                 {% block footer %}
                 <hr />
                 <ol>
@@ -48,7 +34,7 @@
                 </ol>
                 {% endblock %}
             </div>
+        </div>
 
-        {% endblock %} 
     </body>
 </html>
