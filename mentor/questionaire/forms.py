@@ -9,9 +9,9 @@ class USPhoneNumberMultiWidget(forms.MultiWidget):
     """
     def __init__(self,attrs=None):
         widgets = (
-            forms.TextInput(attrs={'size':'3','maxlength':'3', 'class':'phone'}),
-            forms.TextInput(attrs={'size':'3','maxlength':'3', 'class':'phone'}),
-            forms.TextInput(attrs={'size':'4','maxlength':'4', 'class':'phone'}),
+            forms.TextInput(attrs={'size':'3','maxlength':'3', 'class':'phone form-control-noblock input-sm'}),
+            forms.TextInput(attrs={'size':'3','maxlength':'3', 'class':'phone form-control-noblock input-sm'}),
+            forms.TextInput(attrs={'size':'4','maxlength':'4', 'class':'phone form-control-noblock input-sm'}),
         )
         super(USPhoneNumberMultiWidget, self).__init__(widgets, attrs)
 
@@ -129,12 +129,12 @@ class QuestionaireForm(forms.ModelForm):
         self.fields['when_take_step'].widget.attrs['class'] = 'form-control input-sm'
         self.fields['UNST_course'].widget.attrs['class'] = 'form-control input-sm'
         self.fields['type_of_course'].widget.attrs['class'] = 'form-control input-sm'
-        self.fields['primary_concern'].widget.attrs['class'] ='form-control'
-        self.fields['step_taken'].widget.attrs['class'] ='form-control'
-        self.fields['when_take_step'].widget.attrs['class'] ='form-control'
-        self.fields['support_from_MAPS'].widget.attrs['class'] ='form-control'
 
-        self.fields['follow_up_phone'].widget.attrs['class'] ='form-control input-sm'
+        self.fields['primary_concern'].widget.attrs['class'] ='form-control input-sm'
+        self.fields['step_taken'].widget.attrs['class'] ='form-control input-sm'
+        self.fields['when_take_step'].widget.attrs['class'] ='form-control input-sm'
+        self.fields['support_from_MAPS'].widget.attrs['class'] ='form-control input-sm'
+
         self.fields['follow_up_email'].widget.attrs['class'] ='form-control input-sm'
         self.fields['follow_up_appointment'].widget.attrs['class'] ='form-control input-sm'
 

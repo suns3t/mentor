@@ -7,10 +7,11 @@
         <title>{% block page_title %}{{ page_title }}{% endblock %}</title>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-        <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-datepicker.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}js/autotab/jquery.autotab.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}bootstrap-3.1.1-dist/js/bootstrap.js"></script>
         <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bootstrap-3.1.1-dist/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/datepicker.css">
     </head>
     <body>
         <div class="container" role="main">

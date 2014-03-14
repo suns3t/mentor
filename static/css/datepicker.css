@@ -180,3 +180,6 @@
   width: 16px;
   height: 16px;
 }
+
+.date-form { margin: 10px; }
+label.control-label i { cursor: pointer; }

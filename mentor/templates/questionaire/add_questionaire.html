@@ -71,7 +71,14 @@
     }
 
     $(function() {
-        $("#id_follow_up_appointment").datepicker();
+        $("#id_follow_up_appointment").datepicker({
+            onRender: function(date) {
+                var nowTemp = new Date();
+                var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+                return date.valueOf() < now.valueOf() ? 'disabled' : '';
+            }
+        });
         show_fields();
         $("input:radio").click(show_fields);
 
@@ -81,45 +88,41 @@
 
     });
 </script>
-<div class="container-fluid " >
+<div class="container jumbotron" >
 
-    <h2>MAPS Support Webform</h2>
+    <h2 class="text-center">MAPS Support Webform</h2>
     {% if form.errors %}
-        <p class="error">Errors detected: Please correct them before you can continue.</p>
+        <p class="text-danger">Errors detected: Please correct them before you can continue.</p>
     {% endif %}
 
     <form role="form" method="post" class="form-horizontal">
         {% csrf_token %}
 
-        
         <!-- Name -->
 
         <div class="form-group" >
             <legend>General information</legend>
             <div class="row">
-                <div class="control-label col-sm-2">
+                <div class="control-label col-sm-4">
                     {{ form.name.label_tag}}
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     {{ form.name }}
                 </div>
-                <div class="control-label col-sm-3">
-                    {{ form.student_ID.label_tag }}
-                </div>
-                <div class="col-sm-3">
-                    {{ form.student_ID }}
-                </div>
-            </div>   
-            <div class="row text-danger">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-10">
+                <div class="col-sm-4 text-danger">
                     {{ form.name.errors }}
                 </div>
             </div>
-        </div>
-        <div class="form-group">
             <div class="row">
-                <div class="col-sm-5">
+                <div class="control-label col-sm-4">
+                    {{ form.student_ID.label_tag }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form.student_ID }}
+                </div>
+            </div>   
+            <div class="row">
+                <div class="control-label col-sm-4">
                     {{ form.identity.label_tag }} 
                 </div>
                 <div class="col-sm-4">
@@ -127,18 +130,17 @@
                 </div>
             </div>
         </div>
-        
 
         <!-- PART 2: Mentor fill out the form about student/mentor problem -->
         <div id="id_hidden_who_fill_form" class="form-group">
             <div class="row">
-                <div class="col-sm-5" >
+                <div class="control-label col-sm-4" >
                     {{ form.on_behalf_of_student.label_tag }}
                 </div>
                 <div class="col-sm-4">
                     {{ form.on_behalf_of_student }}
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-4 text-danger">
                     {{ form.on_behalf_of_student.errors }}
                 </div>
             </div>
@@ -147,13 +149,13 @@
         <!-- PART 3: Student/Mentor name -->
         <div class="form-group" id="id_hidden_student_name" >    
             <div class="row">  
-                <div class="col-sm-2">
+                <div class="control-label col-sm-4">
                     {{ form.student_name.label_tag }} 
                 </div>
                 <div class="col-sm-4">
                     {{ form.student_name }}
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-4 text-danger">
                     {{ form.student_name.errors }}
                 </div>
             </div>
@@ -162,13 +164,13 @@
          <!-- Mentor name field -->
         <div class="form-group" id="id_hidden_mentor_name" >   
             <div class="row">   
-                <div class="col-sm-2">
+                <div class="control-label col-sm-4">
                     {{ form.mentor_name.label_tag }} 
                 </div>
                 <div class="col-sm-4">
                     {{ form.mentor_name }}
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-4 text-danger">
                     {{ form.mentor_name.errors }}
                 </div>
             </div>
@@ -179,19 +181,19 @@
         <div id="id_hidden_university_studies" class="form-group" >
             <legend>University studies</legend>
             <div class="row">
-                <div class="col-sm-7" >
+                <div class="control-label col-sm-4" >
                     {{ form.UNST_course.label_tag }} 
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     {{ form.UNST_course }}
                 </div>
             </div>
             <br/>
             <div class="row">
-                <div class="col-sm-7">
+                <div class="control-label col-sm-4">
                     {{ form.type_of_course.label_tag }} 
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
                     {{ form.type_of_course }}
                 </div>
             </div>
@@ -203,94 +205,98 @@
             <legend>Primary Concern</legend>
             <!-- Primary concernt field -->
             <div class="row">
-                <div class="col-sm-7">
+                <div class="control-label col-sm-4">
                     {{ form.primary_concern.label_tag }}
                 </div>
-                <div class="col-sm-5">
-                    {{ form.primary_concern.errors }}
-                </div>
-                <div class="col-sm-12">
+                <div class="col-sm-4">
                     {{ form.primary_concern }}
                 </div>
+                <div class="col-sm-4 text-danger">
+                    {{ form.primary_concern.errors }}
+                </div>
             </div>
-
+            <br/>
             <!-- Step taken form field -->
             <div class="row">
-                <div class="col-sm-8">
+                <div class="control-label col-sm-4">
                     {{ form.step_taken.label_tag }}
                 </div>
                 <div class="col-sm-4">
-                    {{ form.step_taken.errors }}
-                </div>
-                <div class="col-sm-12">
                     {{ form.step_taken }}
                 </div>
             </div>
-
-            <!-- When step is taken -->
             <br/>
+            <!-- When step is taken -->
             <div class="row">
-                <div class="col-sm-7">
+                <div class="col-sm-4 control-label">
                     {{ form.when_take_step.label_tag}}
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     {{ form.when_take_step }}
                 </div>
             </div>
-
+            <br/>
             <!-- Support from MAPS field -->
+            
             <div class="row">
-                <div class="col-sm-7">
+                <div class="col-sm-4 control-label">
                     {{ form.support_from_MAPS.label_tag }}
                 </div>
-                <div class="col-sm-5">
-                    {{ form.support_from_MAPS.errors }}
-                </div>
-                <div class="col-sm-12">
+                <div class="col-sm-4">
                     {{ form.support_from_MAPS }}
                 </div>
             </div>
-
-            <!-- Follow up method field -->
-            <label>How would you like us to follow-up with you? (Fill at least ONE method below):</label>
-            {{ form.non_field_errors }}
-
-                <!-- Via email -->
-                <div class="row">
-                    <div class="control-label col-sm-3">
-                        {{ form.follow_up_email.label_tag }} 
-                    </div>
-                    <div class="col-sm-3">
-                        {{ form.follow_up_email }}
-                    </div>
-                </div>
-                <!-- Via phone -->
-                <div class="row">
-                    <div class="control-label col-sm-3">
-                        {{ form.follow_up_phone.label_tag }} 
-                    </div>
-                    <div class="col-sm-9 form-inline">
-                        {{ form.follow_up_phone }}
-                    </div>
-                </div>
-                <!-- By an appointment -->
-                <div class="row">
-                    <div class="control-label col-sm-3">
-                        {{ form.follow_up_appointment.label_tag }} 
-                    </div>
-                    <div class="col-sm-3">
-                        {{ form.follow_up_appointment }}
-                    </div>
-                </div>
             <br/>
 
+            <!-- Follow up method field -->
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="control-label">
+                        <label>How would you like us to follow-up with you? (Fill at least ONE method below):</label>
+                    </div>
+                    <div class="text-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                </div>
+                
+                <div class="col-sm-8">
+                    <!-- Via email -->
+                    <div class="row">
+                        <div class="col-sm-6  input-group">
+                            <span class="input-group-addon">
+                                Email
+                            </span>
+                            {{ form.follow_up_email }}
+                        </div>
+                    </div>
+                    <br/>
+                    <!-- Via phone -->
+                    <div class="row">
+                        <div class="col-sm-12  input-group">
+                            <span class="input-group-addon">Phone number</span>
+                            {{ form.follow_up_phone }}
+                        </div>
+                    </div>
+                    <br/>   
+                    <!-- By an appointment -->
+                    <div class="row">
+                        <div class="col-sm-8 input-group">
+                            <span class="input-group-addon">
+                                Face-to-face meeting
+                            </span>
+                            {{ form.follow_up_appointment }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
             <!-- Submit button -->
             <div class="form-group text-center">
-                <input class="btn btn-lg btn-success" type="submit" name="submit" value="Submit" />
+                <input class="btn btn-lg btn-primary" type="submit" name="submit" value="Submit" />
             </div>
-
-        <!-- END OF HIDDEN PART -->
         </div>
+        <!-- END OF HIDDEN PART -->
+        
     </form>
 
 </div>
