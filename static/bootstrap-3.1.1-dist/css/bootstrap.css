@@ -12,7 +12,7 @@ html {
 }
 body {
   margin: 0;
-  padding-top: 20px;
+  padding-top: 0px;
   padding-bottom: 20px;
 }
 
@@ -25,6 +25,11 @@ footer,
 header {
   width: 50%;
 },
+.header {
+  background-image:url("/static/img/header-1.jpg");
+  width: 90%;
+  height: 50px;
+}
 hgroup,
 main,
 nav,
@@ -1939,6 +1944,17 @@ select[multiple].input-lg {
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
 }
+
+.has-error .form-control-noblock {
+  border-color: #a94442;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+.has-error .form-control-noblock:focus {
+  border-color: #843534;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+}
 .has-error .input-group-addon {
   color: #a94442;
   background-color: #f2dede;
@@ -3674,7 +3690,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   min-height: 50px;
   margin-bottom: 20px;
   border: 1px solid transparent;
-  background-image:url("/static/img/header-1.jpg");
+  
 }
 @media (min-width: 768px) {
   .navbar {
@@ -3821,6 +3837,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   padding-bottom: 10px;
   line-height: 20px;
 }
+
 @media (max-width: 767px) {
   .navbar-nav .open .dropdown-menu {
     position: static;
@@ -4398,9 +4415,9 @@ a.list-group-item.active > .badge,
 .jumbotron {
   padding: 30px;
   margin-bottom: 30px;
+  border: 1px solid #428bca;
   color: inherit;
-  background-color: #eee;
-  max-width: 80%
+  max-width: 100%
 }
 .jumbotron h1,
 .jumbotron .h1 {

@@ -4,11 +4,11 @@
 
 {% block content %}
 
-<div class='wrap'>
-    <h1>Thank you!</h1>
-    <ul class="messages">
-        <li>Your submission is recorded</li>
-        <li><a href='{% url "questionaire-adding" %}'>Submit another request</a></li>
-    </ul>
+	<div class='container jumbotron text-center'>
+	    <h2>Thank you!</h2>
+	    <p class="lead">Your submission is recorded</p>
+	    <a href='{% url "questionaire-adding" %}' class="btn btn-lg btn-primary">Submit new form</a>
+	    <a href='{% url "home" %}' class="btn btn-lg btn-default">Go to homepage</a>
+	</div>
 
 {% endblock %}
