@@ -1,9 +1,5 @@
 # MAPS Mentor Webform 
 ## Install
-Install freetype-devel in order to use captcha package
-
-    yum install freetype-devel
-
 Go to mentor directory, install neccessary softwares for the project
 
     virtualenv-2.6 --no-site-packages .env
