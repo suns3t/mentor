@@ -48,7 +48,6 @@ INSTALLED_APPS = (
     'mentor.questionaire',
     'mentor.users',
     'mentor.counter',
-    'captcha',
 )
 
 MIDDLEWARE_CLASSES = (

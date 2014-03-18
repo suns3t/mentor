@@ -13,7 +13,8 @@ from django.conf import settings
 # Create your views here.
 
 def goto(request, url=None):
-
+    url = request.GET.get('url',None)   
+    # import pdb; pdb.set_trace();
     if url:
         counter = Counter(url=url)
         counter.save()

@@ -42,7 +42,7 @@ class User(AbstractBaseUser):
 
 
     def get_short_name(self):
-        return self.first_name[0] + " " + self.last_name
+        return self.first_name + " " + self.last_name
 
     # we don't need granular permissions; all staff will have access to
     # everything

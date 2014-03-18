@@ -23,8 +23,9 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $("#id_url_button").click(function() {
-            $("#id_url_output").text(window.location.protocol + '//' + window.location.host + '/goto/' + encodeURIComponent($("#id_url_encode").val()))
-        });
+            $("#id_url_output").text(window.location.protocol + '//' + window.location.host + '/goto/?url=' + encodeURIComponent($("#id_url_encode").val()))
+            $("#id_url_output").css("font-weight","Bold");     
+       });
     })
 </script>
 

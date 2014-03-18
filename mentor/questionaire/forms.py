@@ -1,7 +1,6 @@
 from django import forms
 from mentor.questionaire.models import Questionaire
 from datetime import date 
-from captcha.fields import CaptchaField
 
 class USPhoneNumberMultiWidget(forms.MultiWidget):
     """

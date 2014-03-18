@@ -26,14 +26,9 @@ urlpatterns = patterns('',
     url(r'^questionaire/thanks/?$', TemplateView.as_view(template_name='questionaire/thanks.html'), name='questionaire-thanks'),
 
     # Counter
-    url(r'^goto/(?P<url>.*)/?$', counter.goto, name='counter-goto'),
+    url(r'^goto/?$', counter.goto, name='counter-goto'),
 
 
-)
-
-# captcha
-urlpatterns += patterns('',
-    url(r'^captcha/', include('captcha.urls')),
 )
 
 # djangocas
