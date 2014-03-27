@@ -9,16 +9,20 @@
     function show_fields(){
         var identity = $("input:radio[name='identity']:checked").val();
         var who_fill_form = $("input:radio[name='on_behalf_of_student']:checked").val();
+        var contact_who = $("input:radio[name='contact_who']:checked").val();
 
         if (identity == "ST") {
             // Show student view: Name of mentor, university study, concern
             $("#id_hidden_mentor_name").show()
             $("#id_hidden_university_studies").show()
             $("#id_hidden_concern").show()
+            $("#id_hidden_meeting").show()
 
             // Hide other parts
             $("#id_hidden_student_name").hide()
             $("#id_hidden_who_fill_form").hide()
+            $("#id_hidden_contact_who").hide()
+            
 
         }
 
@@ -30,20 +34,30 @@
                     $("#id_hidden_university_studies").show()
                     $("#id_hidden_concern").show()
                     $("#id_hidden_who_fill_form").show()
+                    $("#id_hidden_contact_who").show()
 
                     // Hide other parts
                     $("#id_hidden_mentor_name").hide()
+
+                    if (contact_who == 'MT') {
+                        $("#id_hidden_meeting").show()
+                    }
+                    else {
+                        $("#id_hidden_meeting").hide()
+                    }
                 }
 
                 else if(who_fill_form == "N") {
                     // Show mentor view to fill mentor problem
                     $("#id_hidden_concern").show()
                     $("#id_hidden_who_fill_form").show()
+                    $("#id_hidden_meeting").show()
 
                     // Hide other parts
                     $("#id_hidden_student_name").hide()
                     $("#id_hidden_mentor_name").hide()
                     $("#id_hidden_university_studies").hide()
+                    $("#id_hidden_contact_who").hide()
                 }
             }
             else {
@@ -55,6 +69,8 @@
                 $("#id_hidden_mentor_name").hide()
                 $("#id_hidden_university_studies").hide()
                 $("#id_hidden_concern").hide()
+                $("#id_hidden_contact_who").hide()
+                $("#id_hidden_meeting").hide()
             }
 
         }
@@ -66,6 +82,8 @@
             $("#id_hidden_mentor_name").hide()
             $("#id_hidden_university_studies").hide()
             $("#id_hidden_concern").hide()
+            $("#id_hidden_contact_who").hide()
+            $("#id_hidden_meeting").hide()
             
         }
     }
@@ -261,8 +279,26 @@
                 </div>
             </div>
 
+        
+        
             <!-- Follow up method field -->
             <legend>Follow up method</legend>
+            {% if form.contact_who.errors %}
+            <div class="form-group row has-error" id="id_hidden_contact_who">
+            {% else %}
+            <div class="form-group row" id="id_hidden_contact_who">
+            {% endif %}
+                <div class="col-sm-4 control-label">
+                    {{ form.contact_who.label_tag }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form.contact_who }}
+                </div>
+                <div class="col-sm-4 text-danger">
+                    {{ form.contact_who.errors}}
+                </div>
+            </div>
+
             {% if form.non_field_errors %}
             <div class="form-group row has-error">
             {% else %}
@@ -297,7 +333,7 @@
                     </div>
   
                     <!-- By an appointment -->
-                    <div class="form-group row">
+                    <div id="id_hidden_meeting" class="form-group row">
                         <div class="col-sm-6 input-group">
                             <span class="input-group-addon">
                                 Face-to-face meeting

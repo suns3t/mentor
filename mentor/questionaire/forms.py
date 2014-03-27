@@ -56,6 +56,12 @@ class QuestionaireForm(forms.ModelForm):
         ('Y','Yes'),
         ('N','No')
     )
+
+    NY_CHOICES = (
+        (STUDENT,'Yes'),
+        (MENTOR, 'No')
+    )
+
     name = forms.CharField(label='Name',error_messages={'required':'Please enter your name'})
 
     student_ID = forms.DecimalField(label='Student ID# (optional)', required=False, max_digits=9, decimal_places=0)
@@ -103,8 +109,8 @@ class QuestionaireForm(forms.ModelForm):
     )
 
     contact_who = forms.ChoiceField(
-        choices=YN_CHOICES,
-        label='Would you like us to respond directly to the student',
+        choices=NY_CHOICES,
+        label='Would you like us to respond directly to the student?',
         widget=forms.RadioSelect(),
         required=False,
     )
@@ -160,12 +166,28 @@ class QuestionaireForm(forms.ModelForm):
         identity = self.cleaned_data.get("identity")
 
         if (identity == 'MT') and (not on_behalf_of_student):
-            raise form.ValidationError('Please answer this question')
+            raise forms.ValidationError('Please answer this question')
 
         if (identity == 'ST'):
             on_behalf_of_student = ''
 
         return on_behalf_of_student
+
+    def clean_contact_who(self):
+        contact_who = self.cleaned_data.get("contact_who")
+        on_behalf_of_student = self.cleaned_data.get("on_behalf_of_student")
+        identity = self.cleaned_data.get("identity")
+
+        # Only when mentor fill out the form for student issue, we must
+        # validate the contact_who field
+        # Otherwise, leave it blank
+        if (identity == 'MT') and (on_behalf_of_student == 'Y'):
+            if (not contact_who):
+                raise forms.ValidationError('Please answer this question')
+            else:
+                return contact_who
+        else:
+            return ''
 
     def clean_follow_up_appointment(self):
         #cleaned_data = super(QuestionaireForm, self).clean_follow_up_appointment()
@@ -199,6 +221,14 @@ class QuestionaireForm(forms.ModelForm):
 
         return student_name
 
+    def clean_when_take_step(self):
+        step_taken = self.cleaned_data.get("step_taken")
+        when_take_step = self.cleaned_data.get("when_take_step")
+
+        if (step_taken == ''):
+            return ''
+        else:
+            return when_take_step
 
     def clean(self):
         cleaned_data = super(QuestionaireForm, self).clean()
@@ -243,6 +273,7 @@ class QuestionaireForm(forms.ModelForm):
             'step_taken',
             'when_take_step',
             'support_from_MAPS',
+            'contact_who',
             'follow_up_email',
             'follow_up_phone',
             'follow_up_appointment',

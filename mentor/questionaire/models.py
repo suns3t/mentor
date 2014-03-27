@@ -29,6 +29,7 @@ class Questionaire(models.Model):
     when_take_step = models.CharField(max_length=20,blank=True)                   # When did you take these steps? (Dropdown menu)
     support_from_MAPS = models.TextField(blank=True)                # What kind of support would be helpful from the MAPS team?
     
+    contact_who = models.CharField(max_length=2, blank=True)        # Do you want us to contact student directly?
     follow_up_email = models.EmailField(null=True,blank=True)
     follow_up_phone = models.DecimalField(null=True,max_digits=10,decimal_places=0,blank=True)
     follow_up_appointment = models.DateField(null=True,blank=True)

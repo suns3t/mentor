@@ -12,7 +12,7 @@ class QuestionaireAdmin(admin.ModelAdmin):
         ('Student and Mentor information',  {'fields':  ['student_name', 'mentor_name', 'identity', 'on_behalf_of_student']}),
         ('UNST', {'fields': ['UNST_course', 'type_of_course']}),
         ('Issue detail',                 {'fields':  ['primary_concern', 'step_taken', 'when_take_step' ,'support_from_MAPS']}),
-        ('Following up information',        {'fields':  ['follow_up_email', 'follow_up_phone', 'follow_up_appointment']}),
+        ('Following up information',        {'fields':  ['contact_who', 'follow_up_email', 'follow_up_phone', 'follow_up_appointment']}),
     ]
 
     
