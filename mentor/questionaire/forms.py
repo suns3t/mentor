@@ -98,9 +98,17 @@ class QuestionaireForm(forms.ModelForm):
     
     support_from_MAPS = forms.CharField(
         widget=forms.widgets.Textarea(attrs={'rows':'3'}),
-        label="What kind of support did you receive from MAPS before?",
+        label="What kind of support would be helpful from the MAPS team?",
         required=False,
     )
+
+    contact_who = forms.ChoiceField(
+        choices=YN_CHOICES,
+        label='Would you like us to respond directly to the student',
+        widget=forms.RadioSelect(),
+        required=False,
+    )
+
     follow_up_email = forms.EmailField(
         widget=forms.widgets.EmailInput,
         label='Email',
