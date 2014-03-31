@@ -62,12 +62,12 @@ class QuestionaireForm(forms.ModelForm):
         (MENTOR, 'No')
     )
 
-    name = forms.CharField(label='Name',error_messages={'required':'Please enter your name'})
+    name = forms.CharField(label='Name*',error_messages={'required':'Please enter your name'})
 
-    student_ID = forms.DecimalField(label='Student ID# (optional)', required=False, max_digits=9, decimal_places=0)
+    student_ID = forms.DecimalField(label='Student ID#', required=False, max_digits=9, decimal_places=0)
 
-    student_name = forms.CharField(label='Name of student',required=False)
-    mentor_name = forms.CharField(label='Name of mentor',required=False)
+    student_name = forms.CharField(label='Name of student*',required=False)
+    mentor_name = forms.CharField(label='Name of mentor*',required=False)
     
     UNST_course = forms.ChoiceField(
         choices=UNST_CHOICES,
@@ -79,17 +79,17 @@ class QuestionaireForm(forms.ModelForm):
 
     identity = forms.ChoiceField(
         choices=IDENTITY_CHOICES,
-        label='Are you a student or a mentor?',
+        label='Are you a student or a mentor?*',
         widget=forms.RadioSelect())
     
     on_behalf_of_student = forms.ChoiceField(
         choices=YN_CHOICES,
-        label='Are you filling out this form on behalf of student?',
+        label='Are you filling out this form on behalf of student?*',
         widget=forms.RadioSelect(),
         required=False)
     primary_concern = forms.CharField(
         widget=forms.widgets.Textarea(attrs={'rows':'3'}),
-        label='What are your primary concerns?',)
+        label='What are your primary concerns?*',)
     
     step_taken = forms.CharField(
         widget=forms.widgets.Textarea(attrs={'rows':'3'}),
@@ -110,7 +110,7 @@ class QuestionaireForm(forms.ModelForm):
 
     contact_who = forms.ChoiceField(
         choices=NY_CHOICES,
-        label='Would you like us to respond directly to the student?',
+        label='Would you like us to respond directly to the student?*',
         widget=forms.RadioSelect(),
         required=False,
     )
