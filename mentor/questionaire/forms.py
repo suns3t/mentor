@@ -43,6 +43,17 @@ class QuestionaireForm(forms.ModelForm):
         ('IP','In-person')
     )
     
+    PRIMARY_CONCERN_CHOICES = (
+        ('Academics','Academics'),
+        ('Finances','Finances'),
+        ('Housing','Housing'),
+        ('Mental health','Mental health'),
+        ('Physical health','Physical health'),
+        ('Sexual assault','Sexual assault'),
+        ('Loneliness','Loneliness'),
+        ('Interaction(s) with PSU faculty, staff, or students','Interaction(s) with PSU faculty, staff, or students'),
+        ('Other','Other')
+    )
     WHEN_CHOICES = (
         ('Few days', 'In the past few days'),
         ('Last week', 'In the last week'),
@@ -62,34 +73,37 @@ class QuestionaireForm(forms.ModelForm):
         (MENTOR, 'No')
     )
 
-    name = forms.CharField(label='Name*',error_messages={'required':'Please enter your name'})
+    name = forms.CharField(label='Name',error_messages={'required':'Please enter your name'},required=True)
 
     student_ID = forms.DecimalField(label='Student ID#', required=False, max_digits=9, decimal_places=0)
 
-    student_name = forms.CharField(label='Name of student*',required=False)
-    mentor_name = forms.CharField(label='Name of mentor*',required=False)
+    student_name = forms.CharField(label='Name of student',required=False)
+    mentor_name = forms.CharField(label='Name of FRINQ or SINQ mentor',required=False)
     
     UNST_course = forms.ChoiceField(
+        widget=forms.RadioSelect(),
         choices=UNST_CHOICES,
         label='What University Studies course are you enrolled in?')
 
     type_of_course = forms.ChoiceField(
         choices=COURSE_TYPE_CHOICES,
-        label='Is your UNST course in-person or online or hybrid?')
+        label='Is your UNST course in-person, online or hybrid?')
 
     identity = forms.ChoiceField(
         choices=IDENTITY_CHOICES,
-        label='Are you a student or a mentor?*',
-        widget=forms.RadioSelect())
+        label='Are you a student or a mentor?',
+        widget=forms.RadioSelect(),
+        required=True)
     
     on_behalf_of_student = forms.ChoiceField(
         choices=YN_CHOICES,
-        label='Are you filling out this form on behalf of student?*',
+        label='Are you filling out this form on behalf of student?',
         widget=forms.RadioSelect(),
         required=False)
-    primary_concern = forms.CharField(
-        widget=forms.widgets.Textarea(attrs={'rows':'3'}),
-        label='What are your primary concerns?*',)
+    primary_concern = forms.ChoiceField(
+        widget=forms.widgets.CheckboxSelectMultiple(),
+        choices=PRIMARY_CONCERN_CHOICES,
+        label='What are your primary concerns? Check all that apply)',)
     
     step_taken = forms.CharField(
         widget=forms.widgets.Textarea(attrs={'rows':'3'}),
@@ -110,7 +124,7 @@ class QuestionaireForm(forms.ModelForm):
 
     contact_who = forms.ChoiceField(
         choices=NY_CHOICES,
-        label='Would you like us to respond directly to the student?*',
+        label='Would you like us to respond directly to the student?',
         widget=forms.RadioSelect(),
         required=False,
     )
@@ -126,10 +140,7 @@ class QuestionaireForm(forms.ModelForm):
         label='Phone number',
         required=False)
 
-    follow_up_appointment = forms.DateField(
-        label='Face-to-face meeting in',
-        required=False)
-    
+       
     def __init__(self, *args, **kwargs):
         super(QuestionaireForm, self).__init__(*args, **kwargs)
 
@@ -140,16 +151,13 @@ class QuestionaireForm(forms.ModelForm):
         self.fields['mentor_name'].widget.attrs['class'] = 'form-control input-sm'
 
         self.fields['when_take_step'].widget.attrs['class'] = 'form-control input-sm'
-        self.fields['UNST_course'].widget.attrs['class'] = 'form-control input-sm'
         self.fields['type_of_course'].widget.attrs['class'] = 'form-control input-sm'
 
-        self.fields['primary_concern'].widget.attrs['class'] ='form-control input-sm'
         self.fields['step_taken'].widget.attrs['class'] ='form-control input-sm'
         self.fields['when_take_step'].widget.attrs['class'] ='form-control input-sm'
         self.fields['support_from_MAPS'].widget.attrs['class'] ='form-control input-sm'
 
         self.fields['follow_up_email'].widget.attrs['class'] ='form-control input-sm'
-        self.fields['follow_up_appointment'].widget.attrs['class'] ='form-control input-sm'
 
     def save(self, user, *args, **kwargs):
         """
@@ -189,17 +197,7 @@ class QuestionaireForm(forms.ModelForm):
         else:
             return ''
 
-    def clean_follow_up_appointment(self):
-        #cleaned_data = super(QuestionaireForm, self).clean_follow_up_appointment()
-
-        appointment = self.cleaned_data.get("follow_up_appointment")
-        
-        if appointment:
-            if appointment < date.today():
-                raise forms.ValidationError('Appointment date should be in the future')
-
-        return appointment
-
+    
     def clean_mentor_name(self):
         mentor_name = self.cleaned_data.get("mentor_name")
         identity = self.cleaned_data.get("identity")
@@ -231,6 +229,7 @@ class QuestionaireForm(forms.ModelForm):
             return when_take_step
 
     def clean(self):
+        import pdb; pdb.set_trace();
         cleaned_data = super(QuestionaireForm, self).clean()
 
         name = cleaned_data.get("name")
@@ -252,13 +251,13 @@ class QuestionaireForm(forms.ModelForm):
         # Make sure that user enters at least one method of follow-up
         email = cleaned_data.get("follow_up_email")
         phone = cleaned_data.get("follow_up_phone")
-        appointment = cleaned_data.get("follow_up_appointment")
 
-        if not email and not appointment and not phone :
+        if not email and not phone :
             raise forms.ValidationError('Fill at least one method to follow-up you')
 
 
         return cleaned_data
+    
     class Meta:
         model = Questionaire 
         fields = (
@@ -276,7 +275,6 @@ class QuestionaireForm(forms.ModelForm):
             'contact_who',
             'follow_up_email',
             'follow_up_phone',
-            'follow_up_appointment',
         )
 
 class DownloadResponseForm(forms.Form):

@@ -31,7 +31,7 @@ class User(AbstractBaseUser):
 
     def __unicode__(self):
         if self.first_name:
-            return u'%s %s' % (self.first_name, self.last_name)
+            return u'%s, %s' % (self.last_name, self.first_name)
         else:
             return u'%s' % (self.username)
     #

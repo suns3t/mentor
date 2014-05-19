@@ -10,6 +10,7 @@
         var identity = $("input:radio[name='identity']:checked").val();
         var who_fill_form = $("input:radio[name='on_behalf_of_student']:checked").val();
         var contact_who = $("input:radio[name='contact_who']:checked").val();
+        var unst_course = $("input:radio[name='UNST_course']:checked").val();
 
         if (identity == "ST") {
             // Show student view: Name of mentor, university study, concern
@@ -22,8 +23,14 @@
             $("#id_hidden_student_name").hide()
             $("#id_hidden_who_fill_form").hide()
             $("#id_hidden_contact_who").hide()
-            
+            $("#id_hidden_type_of_course").hide()
 
+            if (unst_course == 'SINQ') {
+                $("#id_hidden_type_of_course").show()
+            }
+            else {
+                $("#id_hidden_type_of_course").hide()
+            }
         }
 
         else if (identity == "MT") {
@@ -38,12 +45,13 @@
 
                     // Hide other parts
                     $("#id_hidden_mentor_name").hide()
+                    $("#id_hidden_type_of_course").hide()
 
-                    if (contact_who == 'MT') {
-                        $("#id_hidden_meeting").show()
+                    if (unst_course == 'SINQ') {
+                        $("#id_hidden_type_of_course").show()
                     }
                     else {
-                        $("#id_hidden_meeting").hide()
+                        $("#id_hidden_type_of_course").hide()
                     }
                 }
 
@@ -70,7 +78,6 @@
                 $("#id_hidden_university_studies").hide()
                 $("#id_hidden_concern").hide()
                 $("#id_hidden_contact_who").hide()
-                $("#id_hidden_meeting").hide()
             }
 
         }
@@ -83,7 +90,6 @@
             $("#id_hidden_university_studies").hide()
             $("#id_hidden_concern").hide()
             $("#id_hidden_contact_who").hide()
-            $("#id_hidden_meeting").hide()
             
         }
     }
@@ -119,15 +125,16 @@
         {% csrf_token %}
 
         <!-- Name -->
-        <legend>General information</legend>
+        <legend>General Information</legend>
         {% if form.name.errors %}
         <div class="form-group row has-error" >
         {% else %}
         <div class="form-group row">
         {% endif %}
-            <div class="control-label col-sm-4">
-                {{ form.name.label_tag}}
-            </div>
+            <label class="control-label col-sm-4">
+                {% if form.name.field.required %}<span style="color: red">*</span>{% endif %}
+                {{ form.name.label}}
+            </label>
             <div class="col-sm-4">
                 {{ form.name }}
             </div>
@@ -136,17 +143,19 @@
             </div>
         </div>
         <div class="form-group row">
-            <div class="control-label col-sm-4">
-                {{ form.student_ID.label_tag }}
-            </div>
+            <label class="control-label col-sm-4">
+                {% if form.student_ID.field.required %}<span style="color: red">*</span>{% endif %}
+                {{ form.student_ID.label }}
+            </label>
             <div class="col-sm-3">
                 {{ form.student_ID }}
             </div>
         </div>   
         <div class="form-group row">
-            <div class="control-label col-sm-4">
-                {{ form.identity.label_tag }} 
-            </div>
+            <label class="control-label col-sm-4">
+                {% if form.identity.field.required %}<span style="color: red">*</span>{% endif %}
+                {{ form.identity.label }} 
+            </label>
             <div class="col-sm-4">
                 {{ form.identity }}
             </div>
@@ -159,9 +168,10 @@
         {% else %}
         <div id="id_hidden_who_fill_form" class="form-group row">
         {% endif %}
-            <div class="control-label col-sm-4" >
-                {{ form.on_behalf_of_student.label_tag }}
-            </div>
+            <label class="control-label col-sm-4" >
+                {% if form.on_behalf_of_student.field.required %}<span style="color: red">*</span>{% endif %}
+                {{ form.on_behalf_of_student.label }}
+            </label>
             <div class="col-sm-4">
                 {{ form.on_behalf_of_student }}
             </div>
@@ -176,9 +186,10 @@
         {% else %}
         <div class="form-group row" id="id_hidden_student_name" >  
         {% endif %}
-            <div class="control-label col-sm-4">
-                {{ form.student_name.label_tag }} 
-            </div>
+            <label class="control-label col-sm-4">
+                <span style="color: red">*</span>
+                {{ form.student_name.label }} 
+            </label>
             <div class="col-sm-4">
                 {{ form.student_name }}
             </div>
@@ -193,9 +204,10 @@
         {% else %}
         <div class="form-group row" id="id_hidden_mentor_name" >  
         {% endif %} 
-            <div class="control-label col-sm-4">
-                {{ form.mentor_name.label_tag }} 
-            </div>
+            <label class="control-label col-sm-4">
+                <span style="color: red">*</span>
+                {{ form.mentor_name.label }} 
+            </label>
             <div class="col-sm-4">
                 {{ form.mentor_name }}
             </div>
@@ -207,20 +219,22 @@
 
         <!-- PART 4: University Studies information if you are student -->
         <div id="id_hidden_university_studies" >
-            <legend>University studies</legend>
+            <legend>University Studies</legend>
             <div class="form-group row">
-                <div class="control-label col-sm-4" >
-                    {{ form.UNST_course.label_tag }} 
-                </div>
+                <label class="control-label col-sm-4" >
+                    {% if form.UNST_course.field.required %}<span style="color: red ">*</span>{% endif %}
+                    {{ form.UNST_course.label }} 
+                </label>
                 <div class="col-sm-3">
                     {{ form.UNST_course }}
                 </div>
             </div>
             
-            <div class="form-group row">
-                <div class="control-label col-sm-4">
-                    {{ form.type_of_course.label_tag }} 
-                </div>
+            <div class="form-group row" id="id_hidden_type_of_course">
+                <label class="control-label col-sm-4">
+                    {% if form.type_of_course.field.required %}<span style="color: red">*</span>{% endif %}
+                    {{ form.type_of_course.label }} 
+                </label>
                 <div class="col-sm-2">
                     {{ form.type_of_course }}
                 </div>
@@ -230,16 +244,17 @@
 
         <!-- HIDDEN PARTS -->
         <div id="id_hidden_concern">
-            <legend>Primary Concern</legend>
+            <legend>Primary Concerns</legend>
             <!-- Primary concernt field -->
             {% if form.primary_concern.errors %}
             <div class="form-group row has-error">
             {% else %}
             <div class="form-group row">
             {% endif %}
-                <div class="control-label col-sm-4">
-                    {{ form.primary_concern.label_tag }}
-                </div>
+                <label class="control-label col-sm-4">
+                    {% if form.primary_concern.field.required %}<span style="color: red; ">*</span>{% endif %}
+                    {{ form.primary_concern.label }}
+                </label>
                 <div class="col-sm-4">
                     {{ form.primary_concern }}
                 </div>
@@ -250,9 +265,10 @@
 
             <!-- Step taken form field -->
             <div class="form-group row">
-                <div class="control-label col-sm-4">
-                    {{ form.step_taken.label_tag }}
-                </div>
+                <label class="control-label col-sm-4">
+                    {% if form.step_taken.field.required %}<span style="color: red">*</span>{% endif %}
+                    {{ form.step_taken.label }}
+                </label>
                 <div class="col-sm-4">
                     {{ form.step_taken }}
                 </div>
@@ -260,9 +276,10 @@
 
             <!-- When step is taken -->
             <div class="form-group row">
-                <div class="col-sm-4 control-label">
-                    {{ form.when_take_step.label_tag}}
-                </div>
+                <label class="col-sm-4 control-label">
+                    {% if form.when_take_step.field.required %}<span style="color: red">*</span>{% endif %}
+                    {{ form.when_take_step.label}}
+                </label>
                 <div class="col-sm-3">
                     {{ form.when_take_step }}
                 </div>
@@ -271,9 +288,10 @@
             <!-- Support from MAPS field -->
             
             <div class="form-group row">
-                <div class="col-sm-4 control-label">
-                    {{ form.support_from_MAPS.label_tag }}
-                </div>
+                <label class="col-sm-4 control-label">
+                    {% if form.support_from_MAPS.field.required %}<span style="color: red">*</span>{% endif %}
+                    {{ form.support_from_MAPS.label }}
+                </label>
                 <div class="col-sm-4">
                     {{ form.support_from_MAPS }}
                 </div>
@@ -282,15 +300,16 @@
         
         
             <!-- Follow up method field -->
-            <legend>Follow up method</legend>
+            <legend>Follow-up Method</legend>
             {% if form.contact_who.errors %}
             <div class="form-group row has-error" id="id_hidden_contact_who">
             {% else %}
             <div class="form-group row" id="id_hidden_contact_who">
             {% endif %}
-                <div class="col-sm-4 control-label">
-                    {{ form.contact_who.label_tag }}
-                </div>
+                <label class="col-sm-4 control-label">
+                    {% if form.contact_who.field.required %}<span style="color: red">*</span>{% endif %}
+                    {{ form.contact_who.label }}
+                </label>
                 <div class="col-sm-4">
                     {{ form.contact_who }}
                 </div>
@@ -305,9 +324,9 @@
             <div class="form-group row">
             {% endif %}
                 <div class="col-sm-4">
-                    <div class="control-label">
-                        <label>How would you like us to respond? (Fill at least ONE method below)*:</label>
-                    </div>
+                    <label class="control-label">
+                        <span style="color: red">*</span> How would you like us to respond? (Fill at least ONE method below):
+                    </label>
                     <div class="text-danger">
                         {{ form.non_field_errors }}
                     </div>
@@ -332,15 +351,6 @@
                         </div>
                     </div>
   
-                    <!-- By an appointment -->
-                    <div id="id_hidden_meeting" class="form-group row">
-                        <div class="col-sm-6 input-group">
-                            <span class="input-group-addon">
-                                Face-to-face meeting
-                            </span>
-                            {{ form.follow_up_appointment }}
-                        </div>
-                    </div>
                 </div>
             </div>
 

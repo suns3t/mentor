@@ -9,14 +9,9 @@ class PSUBackend(CASBackend):
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
-            # user will have an "unusable" password
-            user = User.objects.create_user(username, '')
+            user = User.objects.create_user(username,'')
             user.save()
-
-
-        if settings.DEBUG:
-            pass
-        else:
+            
             # get the user's first and lastname
             ld = ldap.initialize(settings.LDAP_URL)
             ld.simple_bind_s()

@@ -11,4 +11,3 @@ Here is the detail of the response:
 <label>Support from MAPS: </label> {{ questionaire.support_from_MAPS }}
 <label>Follow up email: </label>{{ questionaire.follow_up_email }}
 <label>Follow up phone: </label>{{ questionaire.follow_up_phone }}
-<label>Follow up appointment: </label>{{ questionaire.follow_up_appointment }}

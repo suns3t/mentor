@@ -32,7 +32,6 @@ class Questionaire(models.Model):
     contact_who = models.CharField(max_length=2, blank=True)        # Do you want us to contact student directly?
     follow_up_email = models.EmailField(null=True,blank=True)
     follow_up_phone = models.DecimalField(null=True,max_digits=10,decimal_places=0,blank=True)
-    follow_up_appointment = models.DateField(null=True,blank=True)
 
     def sendNotification(self):
 
