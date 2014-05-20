@@ -11,8 +11,8 @@ class QuestionaireAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Student and Mentor information',  {'fields':  ['student_name', 'mentor_name', 'identity', 'on_behalf_of_student']}),
         ('UNST', {'fields': ['UNST_course', 'type_of_course']}),
-        ('Issue detail',                 {'fields':  ['primary_concern', 'step_taken', 'when_take_step' ,'support_from_MAPS']}),
-        ('Following up information',        {'fields':  ['contact_who', 'follow_up_email', 'follow_up_phone', 'follow_up_appointment']}),
+        ('Issue detail',                 {'fields':  ['primary_concern', 'primary_concern_other', 'step_taken', 'when_take_step' ,'support_from_MAPS']}),
+        ('Following up information',        {'fields':  ['contact_who', 'follow_up_email', 'follow_up_phone', ]}),
     ]
 
     

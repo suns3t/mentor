@@ -76,14 +76,13 @@ def report(request):
                 csv_row.append(questionaire.identity)
                 csv_row.append(questionaire.on_behalf_of_student)
                 csv_row.append(questionaire.primary_concern)
+                csv_row.append(questionaire.primary_concern_other)
                 csv_row.append(questionaire.step_taken)
                 csv_row.append(questionaire.when_take_step)
                 csv_row.append(questionaire.support_from_MAPS)
                 csv_row.append(questionaire.contact_who)
                 csv_row.append(questionaire.follow_up_email)
                 csv_row.append(str(questionaire.follow_up_phone))
-                if questionaire.follow_up_appointment:
-                    csv_row.append(questionaire.follow_up_appointment.strftime("%Y-%m-%d"))
 
                 writer.writerow(csv_row)
 

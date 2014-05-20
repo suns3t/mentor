@@ -7,6 +7,7 @@ Here is the detail of the response:
 <label>Mentor name: </label> {{ questionaire.mentor_name }}
 <label>Identity: </label> {{ questionaire.identity }}
 <label>Primary concern: </label> {{ questionaire.primary_concern }}
+<label>Primary concern - Other: </label> {{ questionaire.primary_concern_other }}
 <label>Step taken: </label> {{ questionaire.step_taken }}
 <label>Support from MAPS: </label> {{ questionaire.support_from_MAPS }}
 <label>Follow up email: </label>{{ questionaire.follow_up_email }}

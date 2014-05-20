@@ -22,6 +22,7 @@ class USPhoneNumberMultiWidget(forms.MultiWidget):
     def value_from_datadict(self, data, files, name):
         values = super(USPhoneNumberMultiWidget, self).value_from_datadict(data, files, name)
         return u'%s%s%s' % tuple(values)
+        
 
 class QuestionaireForm(forms.ModelForm):
 
@@ -52,7 +53,6 @@ class QuestionaireForm(forms.ModelForm):
         ('Sexual assault','Sexual assault'),
         ('Loneliness','Loneliness'),
         ('Interaction(s) with PSU faculty, staff, or students','Interaction(s) with PSU faculty, staff, or students'),
-        ('Other','Other')
     )
     WHEN_CHOICES = (
         ('Few days', 'In the past few days'),
@@ -100,11 +100,15 @@ class QuestionaireForm(forms.ModelForm):
         label='Are you filling out this form on behalf of student?',
         widget=forms.RadioSelect(),
         required=False)
-    primary_concern = forms.ChoiceField(
+    primary_concern = forms.MultipleChoiceField(
         widget=forms.widgets.CheckboxSelectMultiple(),
         choices=PRIMARY_CONCERN_CHOICES,
         label='What are your primary concerns? Check all that apply)',)
     
+    primary_concern_other = forms.CharField(
+        widget=forms.widgets.TextInput(attrs={'class': 'form-control input-sm'}),
+        label="or Other: "
+    )
     step_taken = forms.CharField(
         widget=forms.widgets.Textarea(attrs={'rows':'3'}),
         label="Please share the steps you've taken to address these concerns (if any)",
@@ -113,7 +117,7 @@ class QuestionaireForm(forms.ModelForm):
 
     when_take_step = forms.ChoiceField(
         choices=WHEN_CHOICES,
-        label='When did you take these steps?'
+        label='When did you take these steps?',
     )
     
     support_from_MAPS = forms.CharField(
@@ -229,7 +233,6 @@ class QuestionaireForm(forms.ModelForm):
             return when_take_step
 
     def clean(self):
-        import pdb; pdb.set_trace();
         cleaned_data = super(QuestionaireForm, self).clean()
 
         name = cleaned_data.get("name")
@@ -269,6 +272,7 @@ class QuestionaireForm(forms.ModelForm):
             'UNST_course',
             'type_of_course',
             'primary_concern',
+            'primary_concern_other',
             'step_taken',
             'when_take_step',
             'support_from_MAPS',

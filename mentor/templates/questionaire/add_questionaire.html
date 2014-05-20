@@ -256,7 +256,13 @@
                     {{ form.primary_concern.label }}
                 </label>
                 <div class="col-sm-4">
-                    {{ form.primary_concern }}
+                    {{ form.primary_concern}}
+                    <div class="form-inline">
+                        <label >
+                            {{ form.primary_concern_other.label }}
+                        </label>
+                        {{ form.primary_concern_other }}
+                    </div>
                 </div>
                 <div class="col-sm-4 text-danger">
                     {{ form.primary_concern.errors }}
