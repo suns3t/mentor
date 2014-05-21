@@ -117,6 +117,7 @@
     <h2 class="text-center">MAPS Support Webform</h2>
     {% if form.errors %}
         <div class="row alert alert-danger">
+            {{form.errors}}
             <strong>Errors detected:</strong> Please correct them before you can continue.
         </div>
     {% endif %}
@@ -220,13 +221,20 @@
         <!-- PART 4: University Studies information if you are student -->
         <div id="id_hidden_university_studies" >
             <legend>University Studies</legend>
+            {% if form.UNST_course.errors %}
+            <div class="form-group row has-error">
+            {% else %}
             <div class="form-group row">
+            {% endif %}
                 <label class="control-label col-sm-4" >
-                    {% if form.UNST_course.field.required %}<span style="color: red ">*</span>{% endif %}
+                    <span style="color: red ">*</span>
                     {{ form.UNST_course.label }} 
                 </label>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     {{ form.UNST_course }}
+                </div>
+                <div class="col-sm-4 text-danger">
+                    {{ form.UNST_course.errors }}
                 </div>
             </div>
             
@@ -252,7 +260,7 @@
             <div class="form-group row">
             {% endif %}
                 <label class="control-label col-sm-4">
-                    {% if form.primary_concern.field.required %}<span style="color: red; ">*</span>{% endif %}
+                    <span style="color: red; ">*</span>
                     {{ form.primary_concern.label }}
                 </label>
                 <div class="col-sm-4">

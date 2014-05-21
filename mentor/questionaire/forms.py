@@ -83,11 +83,13 @@ class QuestionaireForm(forms.ModelForm):
     UNST_course = forms.ChoiceField(
         widget=forms.RadioSelect(),
         choices=UNST_CHOICES,
-        label='What University Studies course are you enrolled in?')
+        label='What University Studies course are you enrolled in?',
+        required=False)
 
     type_of_course = forms.ChoiceField(
         choices=COURSE_TYPE_CHOICES,
-        label='Is your UNST course in-person, online or hybrid?')
+        label='Is your UNST course in-person, online or hybrid?',
+        required=False)
 
     identity = forms.ChoiceField(
         choices=IDENTITY_CHOICES,
@@ -103,11 +105,14 @@ class QuestionaireForm(forms.ModelForm):
     primary_concern = forms.MultipleChoiceField(
         widget=forms.widgets.CheckboxSelectMultiple(),
         choices=PRIMARY_CONCERN_CHOICES,
-        label='What are your primary concerns? Check all that apply)',)
+        label='What are your primary concerns? Check all that apply)',
+        required=False,
+    )
     
     primary_concern_other = forms.CharField(
         widget=forms.widgets.TextInput(attrs={'class': 'form-control input-sm'}),
-        label="or Other: "
+        label="or Other: ",
+        required=False,
     )
     step_taken = forms.CharField(
         widget=forms.widgets.Textarea(attrs={'rows':'3'}),
@@ -118,6 +123,7 @@ class QuestionaireForm(forms.ModelForm):
     when_take_step = forms.ChoiceField(
         choices=WHEN_CHOICES,
         label='When did you take these steps?',
+        required=False,
     )
     
     support_from_MAPS = forms.CharField(
@@ -200,7 +206,6 @@ class QuestionaireForm(forms.ModelForm):
                 return contact_who
         else:
             return ''
-
     
     def clean_mentor_name(self):
         mentor_name = self.cleaned_data.get("mentor_name")
@@ -223,6 +228,26 @@ class QuestionaireForm(forms.ModelForm):
 
         return student_name
 
+    def clean_UNST_course(self):
+        UNST_course = self.cleaned_data.get("UNST_course")
+        on_behalf_of_student = self.cleaned_data.get("on_behalf_of_student")
+        identity = self.cleaned_data.get("identity")
+
+        # UNST course is required when student is filling out the form or mentor fill out the form for student
+        if ((identity == "ST") or (on_behalf_of_student == "Y")) and (UNST_course == ''):
+            raise forms.ValidationError('Please answer this question')
+
+        return UNST_course
+
+    def clean_primary_concern(self):
+        primary_concern_other = self.cleaned_data.get("primary_concern_other")
+        primary_concern = self.cleaned_data.get("primary_concern")
+
+        if (primary_concern_other == '' and primary_concern == []):
+            raise forms.ValidationError('Please answer this question')
+
+        return primary_concern
+
     def clean_when_take_step(self):
         step_taken = self.cleaned_data.get("step_taken")
         when_take_step = self.cleaned_data.get("when_take_step")
@@ -231,6 +256,15 @@ class QuestionaireForm(forms.ModelForm):
             return ''
         else:
             return when_take_step
+
+    def clean_type_of_course(self):
+        UNST_course = self.cleaned_data.get("UNST_course")
+        type_of_course = self.cleaned_data.get("type_of_course")
+
+        if (UNST_course == 'FRINQ'):
+            return ''
+        else:
+            return type_of_course
 
     def clean(self):
         cleaned_data = super(QuestionaireForm, self).clean()
@@ -271,8 +305,8 @@ class QuestionaireForm(forms.ModelForm):
             'mentor_name',
             'UNST_course',
             'type_of_course',
-            'primary_concern',
             'primary_concern_other',
+            'primary_concern',
             'step_taken',
             'when_take_step',
             'support_from_MAPS',
