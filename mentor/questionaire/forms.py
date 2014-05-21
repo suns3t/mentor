@@ -103,19 +103,19 @@ class QuestionaireForm(forms.ModelForm):
         widget=forms.RadioSelect(),
         required=False)
     primary_concern = forms.MultipleChoiceField(
-        widget=forms.widgets.CheckboxSelectMultiple(),
+        widget=forms.widgets.CheckboxSelectMultiple(attrs={'class': 'control-label', 'style':'margin-bottom: 0px'}),
         choices=PRIMARY_CONCERN_CHOICES,
-        label='What are your primary concerns? Check all that apply)',
+        label='What are your primary concerns? (Check all that apply)',
         required=False,
     )
     
     primary_concern_other = forms.CharField(
         widget=forms.widgets.TextInput(attrs={'class': 'form-control input-sm'}),
-        label="or Other: ",
+        label="Other: ",
         required=False,
     )
     step_taken = forms.CharField(
-        widget=forms.widgets.Textarea(attrs={'rows':'3'}),
+        widget=forms.widgets.Textarea(attrs={'rows':'3', }),
         label="Please share the steps you've taken to address these concerns (if any)",
         required=False,
     )
@@ -180,6 +180,9 @@ class QuestionaireForm(forms.ModelForm):
         post.sendNotification() 
 
     def clean_on_behalf_of_student(self):
+        # Since "identity" field is placed first under fields list in Meta class,
+        # it will be saved first
+        # It will guarantee self.cleaned_data.get("identity") to return an existing data
         on_behalf_of_student = self.cleaned_data.get("on_behalf_of_student")
         identity = self.cleaned_data.get("identity")
 
@@ -298,6 +301,7 @@ class QuestionaireForm(forms.ModelForm):
     class Meta:
         model = Questionaire 
         fields = (
+            # The order of fields below will dictate the order of data is being saved.
             'identity',
             'on_behalf_of_student',
             'student_name',
