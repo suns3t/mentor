@@ -69,3 +69,14 @@ class Questionaire(models.Model):
     class Meta:
         db_table = 'questionaire'
         ordering = ['created_on']
+
+class UserResponse(models.Model):
+    """
+    A User and response models
+    """
+    id = models.AutoField(primary_key=True)
+    mentor_resolved = models.ForeignKey(User)
+    response = models.ForeignKey(Questionaire)
+
+    created_on = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(default=False, blank=True) # status is used to indicate if the response is resolved by mentor 

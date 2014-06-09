@@ -31,6 +31,9 @@
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="{% url 'mentor-homepage' %}">Mentor Page</a>
+                        </li>
                         {% if user.is_active %}
                         <li>
                             <p class="navbar-text">{{ user }}</p>

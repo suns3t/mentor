@@ -7,6 +7,7 @@ from django.shortcuts import render
 from django.contrib import admin
 from mentor.questionaire import views as questionaire
 from mentor.counter import views as counter 
+from mentor.users import views as user
 from settings import base
 
 admin.autodiscover()
@@ -21,6 +22,9 @@ urlpatterns = patterns('',
     url(r'^admin/report-counter', counter.report, name='counter-reporting'),
     url(r'^admin/counter-list', counter.list_counter, name='counter-list'),
     
+    # mentor area
+    url(r'^mentor/home', user.mentor_home, name="mentor-homepage"),
+
     # Questionaire
     url(r'^questionaire/add/?$', questionaire.add_questionaire, name='questionaire-adding'),
     url(r'^questionaire/thanks/?$', TemplateView.as_view(template_name='questionaire/thanks.html'), name='questionaire-thanks'),
