@@ -32,7 +32,7 @@ def mentor_home(request):
     })
 
 # Detail response for mentor to view
-@decorators.can_view_mentor_homepage
+@decorators.can_view_response_detail
 def response_detail(request, response_id):
     response = get_object_or_404(Questionaire, pk=response_id)
 
@@ -46,7 +46,7 @@ def response_detail(request, response_id):
         "response" : response,
     })
     
-@decorators.can_view_mentor_homepage
+@decorators.can_resolve_response
 def response_resolve(request, response_id):
     response = get_object_or_404(Questionaire, pk=response_id)
 
