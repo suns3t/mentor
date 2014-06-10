@@ -3,3 +3,4 @@ mysql-python==1.2.4
 -e git://github.com/mdj2/djangocas.git#egg=djangocas
 pytz
 python-ldap==2.3.13
+django-perms==0.0.7
