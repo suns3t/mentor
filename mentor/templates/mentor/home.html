@@ -10,7 +10,15 @@
             {% for response in responses %}
             <tr>
                 <td>
-                    <h4>{{ response }}</h4>
+                    <h4>
+                        <a href="{% url 'response-detail' response.pk %}">{{ response }}</a>
+                    </h4>
+                    {% if response.userResponses %}
+                        {% for userResponse in response.userResponses %}
+                            <em>{% if userResponse.status %} <span class="glyphicon glyphicon-ok"></span> Resolved by {% else %} Unresolved by {% endif %}{{ userResponse.mentor_resolved }} at {{ userResponse.created_on }}</em>
+                            <br/>
+                        {% endfor %}
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
@@ -18,4 +26,20 @@
     {% else %}
     <p class="text-center">There is no responses submitted yet.</p>
     {% endif %}
+</div>
+<div class="pagination pull-right">
+    <span class="step-links">
+        {% if responses.has_previous %}
+            <a href="?page={{ responses.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ responses.number }} of {{ responses.paginator.num_pages }}.
+        </span>
+
+        {% if responses.has_next %}
+            <a href="?page={{ responses.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}

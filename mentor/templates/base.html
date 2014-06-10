@@ -1,3 +1,4 @@
+{% load permissions %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -31,15 +32,21 @@
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="{% url 'mentor-homepage' %}">Mentor Page</a>
-                        </li>
                         {% if user.is_active %}
+                        {% if user|can_view_mentor_homepage %}
+                            <li>
+                                <a href="{% url 'mentor-homepage' %}">Mentor Page</a>
+                            </li>
+                        {% endif %}
                         <li>
                             <p class="navbar-text">{{ user }}</p>
                         </li>
                         <li>
                             <a href="{% url 'account-logout' %}" >Logout</a>
+                        </li>
+                        {% else %}
+                        <li>
+                            <a href="{% url 'account-login' %}">Login</a>
                         </li>
                         {% endif %}
                     </ul>

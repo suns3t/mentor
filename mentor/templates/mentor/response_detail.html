@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+
+{% block page_title %}Mentor Homepage{% endblock %}
+
+{% block content %}
+<div class="container jumbotron" >
+    <h2 class="text-center">Response Detail</h2>
+        {% if response.userResponse %}
+            <div class="alert alert-info">{% if response.userResponse.status %} <span class="glyphicon glyphicon-ok"></span> Resolved by {% else %} Unresolved by {% endif %}{{ response.userResponse.mentor_resolved }} at {{ response.userResponse.created_on }}</div>
+        {% endif %}
+        <div class="pull-right">
+            {% if response.userResponse %}
+                {% if response.userResponse.status %}
+
+                    <a href="{% url 'response-resolve' response.pk %}" class="btn btn-danger btn-sm">
+                    <span class="glyphicon glyphicon-remove"></span> Unresolve
+                {% else %}
+                    <a href="{% url 'response-resolve' response.pk %}" class="btn btn-primary btn-sm">
+                    <span class="glyphicon glyphicon-ok"></span> Resolve
+                {% endif %}
+            {% else %}
+                <a href="{% url 'response-resolve' response.pk %}" class="btn btn-primary btn-sm">
+                <span class="glyphicon glyphicon-ok"></span> Resolve
+            {% endif %}
+            </a>
+            <a class="btn btn-sm btn-default" href="{% url 'mentor-homepage' %}">Go Back</a>
+        </div>
+
+        <!-- Student Name -->
+        <legend>General Information</legend>
+        <div class="form-group row" id="id_hidden_student_name" >  
+            <label class="control-label col-sm-4 text-right">
+                Name of student
+            </label>
+            <div class="col-sm-4">
+                {{ response.student_name|default:"None" }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="control-label col-sm-4 text-right">
+                Student ID#
+            </label>
+            <div class="col-sm-3">
+                {{ response.student_ID }}
+            </div>
+        </div>   
+        <div class="form-group row">
+            <label class="control-label col-sm-4 text-right">
+                Are you a student or a mentor?
+            </label>
+            <div class="col-sm-4">
+                {{ response.identity }}
+            </div>
+        </div>
+        
+
+        <!-- PART 2: Mentor fill out the form about student/mentor problem -->
+        <div id="id_hidden_who_fill_form" class="form-group row">
+            <label class="control-label col-sm-4 text-right" >
+                Are you filling out this form on behalf of student?
+            </label>
+            <div class="col-sm-4">
+                {{ response.on_behalf_of_student|default:"None"}}
+            </div>
+        </div>
+        <!-- PART 3: Student/Mentor name -->
+        
+
+         <!-- Mentor name field -->
+        <div class="form-group row" id="id_hidden_mentor_name" >  
+            <label class="control-label col-sm-4 text-right">
+                Name of FRINQ or SINQ mentor
+            </label>
+            <div class="col-sm-4">
+                {{ response.mentor_name|default:"None" }}
+            </div>
+        </div>
+
+        <!-- PART 4: University Studies information if you are student -->
+        {% if response.UNST_course %}
+        <div id="id_hidden_university_studies" >
+            <legend>University Studies</legend>
+            <div class="form-group row">
+                <label class="control-label col-sm-4 text-right" >
+                    What University Studies course are you enrolled in?
+                </label>
+                <div class="col-sm-4">
+                    {{ response.UNST_course|default:"None" }}
+                </div>
+            </div>
+            
+            <div class="form-group row" id="id_hidden_type_of_course">
+                <label class="control-label col-sm-4 text-right">
+                    Is your UNST course in-person, online or hybrid?
+                </label>
+                <div class="col-sm-2">
+                    {{ response.type_of_course|default:"None" }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- HIDDEN PARTS -->
+        <div id="id_hidden_concern">
+            <legend>Primary Concerns</legend>
+            <!-- Primary concernt field -->
+            <div class="form-group row">
+                <label class="control-label col-sm-4 text-right">
+                    What are your primary concerns? (Check all that apply)
+                </label>
+                <div class="col-sm-4">
+                    <ol>
+                        {% for concern in response.primary_concern.all %}
+                            <li>{{ concern }}</li>
+                        {% endfor %}
+                    </ol>
+                    <div class="form-inline" style="margin-top: -10px; padding-left: 40px">
+                        <label >
+                            Other: 
+                        </label>
+                        {{ response.primary_concern_other|default:"None" }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step taken form field -->
+            <div class="form-group row">
+                <label class="control-label col-sm-4 text-right">
+                    Please share the steps you've taken to address these concerns (if any)
+                </label>
+                <div class="col-sm-4">
+                    {{ response.step_taken|default:"None" }}
+                </div>
+            </div>
+
+            <!-- When step is taken -->
+            <div class="form-group row">
+                <label class="col-sm-4 control-label text-right">
+                    When did you take these steps?
+                </label>
+                <div class="col-sm-3">
+                    {{ response.when_take_step|default:"None" }}
+                </div>
+            </div>
+
+            <!-- Support from MAPS field -->
+            
+            <div class="form-group row">
+                <label class="col-sm-4 control-label text-right">
+                    What kind of support would be helpful from the MAPS team?
+                </label>
+                <div class="col-sm-4">
+                    {{ response.support_from_MAPS|default:"None" }}
+                </div>
+            </div>
+
+        
+        
+            <!-- Follow up method field -->
+            <legend>Follow-up Method</legend>
+            <div class="form-group row" id="id_hidden_contact_who">
+                <label class="col-sm-4 control-label text-right">
+                    Would you like us to respond directly to the student?
+                </label>
+                <div class="col-sm-4">
+                    {{ response.contact_who|default:"None" }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    <label class="control-label text-right">
+                        How would you like us to respond? (Fill at least ONE method below):
+                    </label>
+                </div>
+                
+                <div class="col-sm-7" >
+                    <!-- Via email -->
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <b>
+                                Email
+                            </b>
+                            {{ response.follow_up_email }}
+                        </div>
+                    </div>
+
+                    <!-- Via phone -->
+                    <div class="form-group row">
+                        <div class="col-sm-12 ">
+                            <b>Phone number</b>
+                            {{ response.follow_up_phone }}
+                        </div>
+                    </div>
+  
+                </div>
+            </div>
+            <div class="form-group pull-right">
+                {% if response.userResponse %}
+                    {% if response.userResponse.status %}
+                        <a href="{% url 'response-resolve' response.pk %}" class="btn btn-danger btn-sm">
+                        <span class="glyphicon glyphicon-remove"></span> Unresolve
+                    {% else %}
+                        <a href="{% url 'response-resolve' response.pk %}" class="btn btn-primary btn-sm">
+                        <span class="glyphicon glyphicon-ok"></span> Resolve
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'response-resolve' response.pk %}" class="btn btn-primary btn-sm">
+                    <span class="glyphicon glyphicon-ok"></span> Resolve
+                {% endif %}
+                </a>
+                <a class="btn btn-sm btn-default" href="{% url 'mentor-homepage' %}">Go Back</a>
+            </div>
+            
+        </div>
+
+</div>
+{% endblock %}

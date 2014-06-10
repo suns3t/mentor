@@ -24,7 +24,9 @@ urlpatterns = patterns('',
     
     # mentor area
     url(r'^mentor/home', user.mentor_home, name="mentor-homepage"),
-
+    url(r'^mentor/response/detail/(?P<response_id>\d+)/?$', user.response_detail, name="response-detail"),
+    url(r'^mentor/response/resolve/(?P<response_id>\d+)/?$', user.response_resolve, name="response-resolve"),
+    
     # Questionaire
     url(r'^questionaire/add/?$', questionaire.add_questionaire, name='questionaire-adding'),
     url(r'^questionaire/thanks/?$', TemplateView.as_view(template_name='questionaire/thanks.html'), name='questionaire-thanks'),
