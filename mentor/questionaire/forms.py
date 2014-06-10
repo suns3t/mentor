@@ -1,5 +1,5 @@
 from django import forms
-from mentor.questionaire.models import Questionaire
+from mentor.questionaire.models import Questionaire, PrimaryConcernChoice 
 from datetime import date 
 
 class USPhoneNumberMultiWidget(forms.MultiWidget):
@@ -44,16 +44,8 @@ class QuestionaireForm(forms.ModelForm):
         ('IP','In-person')
     )
     
-    PRIMARY_CONCERN_CHOICES = (
-        ('Academics','Academics'),
-        ('Finances','Finances'),
-        ('Housing','Housing'),
-        ('Mental health','Mental health'),
-        ('Physical health','Physical health'),
-        ('Sexual assault','Sexual assault'),
-        ('Loneliness','Loneliness'),
-        ('Interaction(s) with PSU faculty, staff, or students','Interaction(s) with PSU faculty, staff, or students'),
-    )
+    PRIMARY_CONCERN_CHOICES = PrimaryConcernChoice.objects.all()
+
     WHEN_CHOICES = (
         ('Few days', 'In the past few days'),
         ('Last week', 'In the last week'),
@@ -102,9 +94,9 @@ class QuestionaireForm(forms.ModelForm):
         label='Are you filling out this form on behalf of student?',
         widget=forms.RadioSelect(),
         required=False)
-    primary_concern = forms.MultipleChoiceField(
+    primary_concern = forms.ModelMultipleChoiceField(
         widget=forms.widgets.CheckboxSelectMultiple(attrs={'class': 'control-label', 'style':'margin-bottom: 0px'}),
-        choices=PRIMARY_CONCERN_CHOICES,
+        queryset=PRIMARY_CONCERN_CHOICES,
         label='What are your primary concerns? (Check all that apply)',
         required=False,
     )
@@ -166,8 +158,8 @@ class QuestionaireForm(forms.ModelForm):
         self.fields['step_taken'].widget.attrs['class'] ='form-control input-sm'
         self.fields['when_take_step'].widget.attrs['class'] ='form-control input-sm'
         self.fields['support_from_MAPS'].widget.attrs['class'] ='form-control input-sm'
-
         self.fields['follow_up_email'].widget.attrs['class'] ='form-control input-sm'
+
 
     def save(self, user, *args, **kwargs):
         """

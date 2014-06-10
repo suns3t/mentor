@@ -75,7 +75,7 @@ def report(request):
                 csv_row.append(questionaire.mentor_name)
                 csv_row.append(questionaire.identity)
                 csv_row.append(questionaire.on_behalf_of_student)
-                csv_row.append(questionaire.primary_concern)
+                csv_row.append(' ,'.join([str(primary_concern) for primary_concern in questionaire.primary_concern.all ]))
                 csv_row.append(questionaire.primary_concern_other)
                 csv_row.append(questionaire.step_taken)
                 csv_row.append(questionaire.when_take_step)

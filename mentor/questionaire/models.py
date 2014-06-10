@@ -6,6 +6,18 @@ from django.conf import settings as SETTINGS
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
+
+class PrimaryConcernChoice(models.Model):
+    """
+    A choice table for primary concerns
+    """
+    choice_id = models.AutoField(primary_key=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    value = models.CharField(max_length=256, blank=False)
+
+    def __unicode__(self):
+        return self.value
+
 class Questionaire(models.Model):
     questionaire_id = models.AutoField(primary_key=True)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -24,7 +36,7 @@ class Questionaire(models.Model):
     UNST_course = models.CharField(max_length=20, blank=True)       # What University Studies course are you enrolled in?
     type_of_course = models.CharField(max_length=20, blank=True)    # Is your UNST course in-person or online?
     
-    primary_concern = models.TextField(blank=False)                 # What are your primary concerns?
+    primary_concern = models.ManyToManyField(PrimaryConcernChoice)  # What are your primary concerns?
     primary_concern_other = models.TextField(blank=True)            # Other concerns?
     step_taken = models.TextField(blank=True)                       # Please share the steps you've taken to address these concerns (if any)
     when_take_step = models.CharField(max_length=20,blank=True)                   # When did you take these steps? (Dropdown menu)
@@ -33,6 +45,23 @@ class Questionaire(models.Model):
     contact_who = models.CharField(max_length=2, blank=True)        # Do you want us to contact student directly?
     follow_up_email = models.EmailField(null=True,blank=True)
     follow_up_phone = models.DecimalField(null=True,max_digits=10,decimal_places=0,blank=True)
+
+    def __unicode__(self):
+        concerns = ', '.join([str(concern.value) for concern in self.primary_concern.all() ])
+        if self.primary_concern_other:
+            concerns = concerns + ', ' + self.primary_concern_other
+
+        if self.identity == 'ST':
+            # Student filled the form for his/her problems
+            return self.student_name + " - " + concerns
+        elif self.identity == 'MT':
+            if self.on_behalf_of_student == 'Y':
+                # Mentor filled the form for student problems
+                return self.student_name + " - " + concerns
+            else:
+                # Mentor filled the form for mentor problems
+                return self.mentor_name + " - " + concerns
+
 
     def sendNotification(self):
 
@@ -78,5 +107,8 @@ class UserResponse(models.Model):
     mentor_resolved = models.ForeignKey(User)
     response = models.ForeignKey(Questionaire)
 
-    created_on = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField()
     status = models.BooleanField(default=False, blank=True) # status is used to indicate if the response is resolved by mentor 
+
+    class Meta:
+        db_table = 'user_response'
